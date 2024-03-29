@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Experimenting Around</title>
+    <style>
+        #entertext {
+            background-color: aqua;
+            margin: 50px;
+            padding: 50px;
+            display: block;
+        }
+        #ptext {
+            float:right;
+        }
+
+    </style>
+</head>
+<body>
+    <div id = inital>
+        <h1>Time to experiment with javascript!</h1>
+            <p id ="hiddentext"></p>
+            <button id="show">show</button>
+            <button id="main">Main</button>
+            <button id="add">add</button>
+            <button id ="style">Style</button>
+            <button id="color">Color</button>
+            <button id ="size">font size</button>
+        <hr>
+            <button id="disappear">BEGONE</button>
+            <button id ="appear">CUM BACK</button>
+        <hr>
+    </div>
+    <button id="circles">Disappearing Circles Project!</button>
+    <div id = "entertext">
+        <input id="inputtext" type = "text" placeholder="Enter text here">
+        <button id ="enterbutton">Enter</button>
+        <p id = "ptext">Here is some random text haha yes lol.</p>
+    </div>
+    <script type="text/javascript">
+        //entertext starts here
+        const enterbutton = document.getElementById("enterbutton");
+        const ptext = document.getElementById("ptext");
+        const inputtext = document.getElementById("inputtext");
+        enterbutton.onclick =()=> ptext.innerHTML = inputtext.value;
+        //all the initial stuff
+        document.getElementById("show").onclick = function() {
+            document.getElementById("hiddentext").innerHTML = "Lorem ipsum dolor cats love to eat" ;
+        }
+        document.getElementById("main").onclick = function(){
+            window.location.href = "akbio.html";
+        }
+        document.getElementById("add").onclick = function(){
+            document.getElementById("hiddentext").innerHTML += " boots and cats and";
+        }
+        document.getElementById("style").onclick = function(){
+            document.getElementById("hiddentext").style.fontFamily = "monospace";
+        }
+        document.getElementById("color").onclick = function(){
+            document.getElementById("hiddentext").style.color = "red";
+        }
+        document.getElementById("size").onclick = function(){
+            document.getElementById("hiddentext").style.fontSize = "30px";
+        }
+        document.getElementById("disappear").onclick = function(){
+            document.getElementById("hiddentext").style.display = "none";
+        }
+        document.getElementById("appear").onclick = function(){
+            document.getElementById("hiddentext").style.display = "inline";
+        }
+        document.getElementById("circles").onclick = () => window.location.href="disappearing_circles.html";
+    </script>
+</body>
+</html>

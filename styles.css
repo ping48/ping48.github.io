@@ -1,0 +1,27 @@
+/* this is an external CSS file for akbio.html */
+.square {
+    width:100px;
+    height:100px;
+    border-style: solid;
+    border-color: blue;
+    border-width: 10px;
+    border-radius:50%; 
+}
+
+body {
+    background-color: rgb(255, 255, 255);
+    font-family: monospace;
+    color:#F0F;
+}
+
+h1 {
+    color: blue;
+    font
+}
+
+#aboutme {
+    font-family: 'Times New Roman', sans-serif;
+    font-size: 16px;
+    color: black;
+    float: left;
+}

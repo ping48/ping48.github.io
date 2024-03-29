@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CIRCLES BEGONE</title>
+    <style>
+    .circle {
+        width: 100px;
+        height: 100px;
+        float: left;
+        border-radius: 50%;
+        margin-right: 50px;
+    }
+
+    #redcircle {
+        background-color: red;
+    }
+    
+    #bluecircle {
+        background-color: blue;
+    }
+
+    #yellowcircle {
+        background-color: yellow;
+    }
+    
+    #bottompage {
+        display: inline-block;
+        background-color: black;
+
+
+    }
+    
+</style>
+</head>
+<body>
+    <p>Below we will be making the disappering circles project from Rob Percival's Complete Web Developer Course 2.0</p>
+    <!-- declare circle containers-->
+    <div id ="circlepage">
+        <div class="circle" id="redcircle"></div>
+        <div class = "circle" id = "yellowcircle"></div>
+        <div class = "circle" id = "bluecircle"></div>
+    </div>
+        <!--the other stuff-->
+    <div id="bottompage">
+        <button id ="experiment">Go Back to Experiment</button>
+    </div>
+    <script type="text/javascript">
+        document.getElementById("redcircle").onclick =()=> document.getElementById("redcircle").style.display="none";
+        document.getElementById("yellowcircle").onclick =()=> document.getElementById("yellowcircle").style.display="none";
+        document.getElementById("bluecircle").onclick =()=> document.getElementById("bluecircle").style.display="none";
+        //button    
+        document.getElementById("experiment").onclick = () => window.location.href ="experiment.html";
+    </script>
+</body>
+</html>
