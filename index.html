@@ -4,65 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Anthony's Project</title>
-    <link rel="stylesheet" type="text/css" href="styles.css">
 </head>
 <body>
     <h1><a href="Resume_23-24.pdf"> RESUME LINK</a></h1>
-    <h1>Before anything is actually made</h1>
-        <ul id = "goals"> Here are some goals for this webpage</ul>
-            <li>Be somewhat aesthetic/presentable</li>
-            <li>Store values in a database somewhere</li>
-            <li>Perhaps eventually use javascript, bootStrap, react, etc.</li>
-    <p>below is where the website actually starts</p>
-    <hr>
-    <div id = "example">
-        <h1>Hey there!</h1>
-        <img width = "300px" src = "Images/fbprofilepic.jpg">
-        <p id = "aboutme">Hi, my name is Anthony Kang, and I am currently a freshman at <a href = "https://www.hmc.edu">Harvey Mudd College</a>.  I plan to be an engineering major but I have a passion for physics and computer science as well! In my free time, I enjoy doing hackathons, working out, and eating good food. Contact me using the form below!</p>
-        <!--<form id ="contact">-->
-            <input id = "name" type="text" placeholder="Name"><br>
-            <input id = "email" type="text" placeholder="email"><br>
-            <textarea id = "about" rows="5" cols="60" placeholder="A little bit about yourself"></textarea>
-            <p>I am a robot</p>
-            <label for="isarobot"><input id ="isarobot" value="robot" name="robotornot" type="radio" checked> Yes</label>
-            <label for = "notarobot"><input id ="notarobot" value="notarobot" name="robotornot" type="radio">No</label>
-        <br>
-        <br>
-            <!--changed from input to button--><button id="sumbitButton">Submit</button>
-        <!--</form> commented out form type-->
-        <button id="goToExperiment">Experiment!</button>
-        <br>
-        <table id="imageCollage">
-            <tr>
-                <td><img class="square"  src="Images/deerfield.jpg"></td>
-                <td><img class="square"  src="Images/lake.jpg"></td>
-            </tr>
-            <tr>
-                <td><img style="transform: rotate(45deg)" class="square"  src = "Images/graduation.jpg" alt = "ad"></td>
-                <td ><img class="square"  src = "Images/titantutoringad.jpg" alt="ad of Titan Tutoring and Test Prep"></td>
-            </tr>
-        </table>
-        <iframe width="560" height="315" src="https://www.youtube.com/embed/5qap5aO4i9A" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-    </div>
+    <iframe width="560" height="315" src="https://www.youtube.com/embed/pZjMafjq-XM" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        <button id="archive">Archive!</button>
     <script type="text/javascript">
-        document.getElementById("goToExperiment").onclick = function() {
-            window.location.href = "experiment.html";
+        document.getElementById("archive").onclick = function() {
+            window.location.href = "ak-bio.html";
         }
-        //real js time below, putting the inputs of the form into an object data structure
-        const nameInput = document.getElementById("name");
-        const emailInput = document.getElementById('email')
-        const aboutInput = document.getElementById("about");
-        const sumbitButton = document.getElementById("submitButton");
-        const array = [];
-        sumbitButton.onclick = function(){
-            let data = {
-                name:nameInput.value,
-                email:emailInput.value,
-            };
-            array.push(data);
-            console.log(array);
-        }
-        
     </script>
 </body>
 </html>
