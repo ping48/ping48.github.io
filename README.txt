@@ -16,3 +16,12 @@ Feedback, bug reports, and comments are not only welcome, but strongly encourage
 
 AJ
 aj@lkn.io | @ajlkn
+
+POTENTIAL IDEAS:
+- !!TUTORING PAGE!!
+- secret password to enter rest of website (dogwater fun pages LOL)
+- web app practice? 
+- cooking/food blog --> could also easily be instagramntutor
+- lifting....? -->basically just instagram tho but like more niche?
+    - hosting videos might be a pain --> youtube channel and then api but like just stick with insta at that point
+
