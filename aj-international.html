@@ -1,0 +1,1875 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AJ International — Sterling Silver Jewelry</title>
+    <meta name="robots" content="noindex, nofollow">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg: #f7f5f2;
+            --bg-card: #ffffff;
+            --text-primary: #1a1a1a;
+            --text-secondary: #6b6560;
+            --text-muted: #9e9893;
+            --accent: #b8977e;
+            --accent-dark: #8c6d55;
+            --border: #e8e4df;
+            --silver: #c0c0c0;
+            --silver-shine: linear-gradient(135deg, #e8e8e8 0%, #c0c0c0 25%, #e8e8e8 50%, #b0b0b0 75%, #d8d8d8 100%);
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg);
+            color: var(--text-primary);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* ===== ANNOUNCEMENT BAR ===== */
+        .announcement-bar {
+            background: var(--text-primary);
+            color: #fff;
+            text-align: center;
+            padding: 10px 20px;
+            font-size: 0.75rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            font-weight: 500;
+        }
+
+        .announcement-bar a {
+            color: var(--accent);
+            text-decoration: underline;
+        }
+
+        /* ===== NAVIGATION ===== */
+        .nav {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background: rgba(247, 245, 242, 0.95);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .nav-inner {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 40px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 70px;
+        }
+
+        .nav-logo {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.6rem;
+            font-weight: 600;
+            letter-spacing: 0.08em;
+            color: var(--text-primary);
+            text-decoration: none;
+        }
+
+        .nav-logo span {
+            font-weight: 300;
+            color: var(--text-secondary);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 32px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-secondary);
+            font-size: 0.8rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            font-weight: 500;
+            transition: color 0.3s;
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 1px;
+            background: var(--text-primary);
+            transition: width 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--text-primary);
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .nav-icons {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .nav-icon {
+            cursor: pointer;
+            color: var(--text-secondary);
+            transition: color 0.3s;
+            background: none;
+            border: none;
+            font-size: 0.8rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            font-weight: 500;
+            font-family: inherit;
+        }
+
+        .nav-icon:hover {
+            color: var(--text-primary);
+        }
+
+        .cart-count {
+            background: var(--text-primary);
+            color: #fff;
+            font-size: 0.6rem;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin-left: 4px;
+            vertical-align: middle;
+        }
+
+        /* ===== MOBILE NAV ===== */
+        .nav-toggle {
+            display: none;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 8px;
+        }
+
+        .nav-toggle span {
+            display: block;
+            width: 22px;
+            height: 2px;
+            background: var(--text-primary);
+            margin: 5px 0;
+            transition: 0.3s;
+        }
+
+        /* ===== HERO ===== */
+        .hero {
+            position: relative;
+            height: 90vh;
+            min-height: 600px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            background: #1a1a1a;
+        }
+
+        .hero-bg {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(160deg, #2a2520 0%, #1a1612 40%, #0f0d0b 100%);
+        }
+
+        .hero-shimmer {
+            position: absolute;
+            inset: 0;
+            background:
+                radial-gradient(ellipse at 30% 50%, rgba(192, 192, 192, 0.08) 0%, transparent 60%),
+                radial-gradient(ellipse at 70% 30%, rgba(184, 151, 126, 0.06) 0%, transparent 50%);
+            animation: shimmer 8s ease-in-out infinite alternate;
+        }
+
+        @keyframes shimmer {
+            0% { opacity: 0.6; }
+            100% { opacity: 1; }
+        }
+
+        .hero-particles {
+            position: absolute;
+            inset: 0;
+            overflow: hidden;
+        }
+
+        .particle {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: rgba(192, 192, 192, 0.4);
+            border-radius: 50%;
+            animation: float linear infinite;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translateY(-10vh) rotate(720deg); opacity: 0; }
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            color: #fff;
+            padding: 0 40px;
+        }
+
+        .hero-eyebrow {
+            font-size: 0.75rem;
+            letter-spacing: 0.35em;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: 24px;
+            font-weight: 500;
+        }
+
+        .hero-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(3rem, 8vw, 7rem);
+            font-weight: 300;
+            letter-spacing: 0.06em;
+            line-height: 1.05;
+            margin-bottom: 24px;
+        }
+
+        .hero-title em {
+            font-style: italic;
+            font-weight: 400;
+            background: var(--silver-shine);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-subtitle {
+            font-size: 0.9rem;
+            color: rgba(255,255,255,0.6);
+            letter-spacing: 0.08em;
+            max-width: 500px;
+            margin: 0 auto 40px;
+            line-height: 1.8;
+        }
+
+        .hero-cta {
+            display: inline-block;
+            padding: 16px 48px;
+            border: 1px solid rgba(255,255,255,0.3);
+            color: #fff;
+            text-decoration: none;
+            font-size: 0.75rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            font-weight: 500;
+            transition: all 0.4s;
+            font-family: inherit;
+        }
+
+        .hero-cta:hover {
+            background: #fff;
+            color: var(--text-primary);
+            border-color: #fff;
+        }
+
+        .hero-scroll {
+            position: absolute;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 2;
+        }
+
+        .hero-scroll span {
+            display: block;
+            width: 1px;
+            height: 60px;
+            background: linear-gradient(to bottom, rgba(255,255,255,0.4), transparent);
+            margin: 0 auto;
+            animation: scrollPulse 2s ease-in-out infinite;
+        }
+
+        @keyframes scrollPulse {
+            0%, 100% { opacity: 0.3; transform: scaleY(1); }
+            50% { opacity: 1; transform: scaleY(1.2); }
+        }
+
+        /* ===== CATEGORY STRIP ===== */
+        .categories {
+            padding: 80px 40px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .categories-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+        }
+
+        .category-card {
+            position: relative;
+            aspect-ratio: 3/4;
+            overflow: hidden;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+
+        .category-card-bg {
+            position: absolute;
+            inset: 0;
+            transition: transform 0.6s ease;
+        }
+
+        .category-card:nth-child(1) .category-card-bg {
+            background: linear-gradient(160deg, #e8e0d8, #c9beb3);
+        }
+        .category-card:nth-child(2) .category-card-bg {
+            background: linear-gradient(160deg, #d4d4d4, #a8a8a8);
+        }
+        .category-card:nth-child(3) .category-card-bg {
+            background: linear-gradient(160deg, #ddd5cc, #b8ada0);
+        }
+        .category-card:nth-child(4) .category-card-bg {
+            background: linear-gradient(160deg, #e0dcd8, #bab4ac);
+        }
+
+        .category-card:hover .category-card-bg {
+            transform: scale(1.05);
+        }
+
+        .category-icon {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -60%);
+            font-size: 3rem;
+            opacity: 0.15;
+            z-index: 1;
+        }
+
+        .category-label {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 30px 24px;
+            background: linear-gradient(to top, rgba(0,0,0,0.5), transparent);
+            z-index: 2;
+        }
+
+        .category-label h3 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.5rem;
+            font-weight: 400;
+            color: #fff;
+            letter-spacing: 0.05em;
+        }
+
+        .category-label p {
+            font-size: 0.7rem;
+            color: rgba(255,255,255,0.7);
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            margin-top: 4px;
+        }
+
+        /* ===== SECTION HEADERS ===== */
+        .section-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .section-header h2 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(2rem, 4vw, 3rem);
+            font-weight: 400;
+            letter-spacing: 0.04em;
+            margin-bottom: 12px;
+        }
+
+        .section-header p {
+            color: var(--text-muted);
+            font-size: 0.8rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+        }
+
+        .section-divider {
+            width: 40px;
+            height: 1px;
+            background: var(--accent);
+            margin: 16px auto 0;
+        }
+
+        /* ===== PRODUCT GRID ===== */
+        .products-section {
+            padding: 80px 40px 100px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 30px;
+        }
+
+        .product-card {
+            background: var(--bg-card);
+            border-radius: 8px;
+            overflow: hidden;
+            transition: transform 0.3s, box-shadow 0.3s;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .product-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.08);
+        }
+
+        .product-badge {
+            position: absolute;
+            top: 16px;
+            left: 16px;
+            z-index: 3;
+            padding: 4px 12px;
+            font-size: 0.65rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            font-weight: 600;
+            border-radius: 2px;
+        }
+
+        .badge-new {
+            background: var(--text-primary);
+            color: #fff;
+        }
+
+        .badge-bestseller {
+            background: var(--accent);
+            color: #fff;
+        }
+
+        .badge-sale {
+            background: #c44;
+            color: #fff;
+        }
+
+        .product-image {
+            aspect-ratio: 1;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .product-image-bg {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.5s ease;
+        }
+
+        .product-card:hover .product-image-bg {
+            transform: scale(1.03);
+        }
+
+        .product-visual {
+            width: 60%;
+            height: 60%;
+            position: relative;
+        }
+
+        /* SVG jewelry illustrations */
+        .product-visual svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        .product-quick-add {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 14px;
+            background: rgba(26, 26, 26, 0.9);
+            color: #fff;
+            text-align: center;
+            font-size: 0.72rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            font-weight: 500;
+            transform: translateY(100%);
+            transition: transform 0.3s ease;
+            cursor: pointer;
+            border: none;
+            width: 100%;
+            font-family: inherit;
+        }
+
+        .product-card:hover .product-quick-add {
+            transform: translateY(0);
+        }
+
+        .product-info {
+            padding: 20px 20px 24px;
+        }
+
+        .product-category {
+            font-size: 0.65rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            margin-bottom: 6px;
+        }
+
+        .product-name {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.2rem;
+            font-weight: 500;
+            margin-bottom: 8px;
+            letter-spacing: 0.02em;
+        }
+
+        .product-price {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        .product-price .original {
+            text-decoration: line-through;
+            color: var(--text-muted);
+            margin-right: 8px;
+            font-weight: 400;
+        }
+
+        .product-variants {
+            display: flex;
+            gap: 6px;
+            margin-top: 10px;
+        }
+
+        .variant-dot {
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            border: 1.5px solid var(--border);
+            cursor: pointer;
+            transition: border-color 0.2s;
+        }
+
+        .variant-dot:hover, .variant-dot.active {
+            border-color: var(--text-primary);
+        }
+
+        /* ===== EDITORIAL BANNER ===== */
+        .editorial {
+            padding: 0 40px;
+            max-width: 1400px;
+            margin: 0 auto 100px;
+        }
+
+        .editorial-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0;
+            min-height: 500px;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .editorial-image {
+            background: linear-gradient(135deg, #c9bfb3, #a89888);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .editorial-image-inner {
+            width: 200px;
+            height: 200px;
+            opacity: 0.15;
+        }
+
+        .editorial-content {
+            background: var(--text-primary);
+            color: #fff;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 80px 60px;
+        }
+
+        .editorial-eyebrow {
+            font-size: 0.7rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: 20px;
+        }
+
+        .editorial-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(2rem, 3.5vw, 3rem);
+            font-weight: 300;
+            line-height: 1.2;
+            margin-bottom: 20px;
+        }
+
+        .editorial-text {
+            color: rgba(255,255,255,0.6);
+            font-size: 0.9rem;
+            line-height: 1.8;
+            margin-bottom: 32px;
+            max-width: 400px;
+        }
+
+        .editorial-btn {
+            display: inline-block;
+            padding: 14px 40px;
+            border: 1px solid rgba(255,255,255,0.3);
+            color: #fff;
+            text-decoration: none;
+            font-size: 0.72rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            font-weight: 500;
+            transition: all 0.3s;
+            align-self: flex-start;
+        }
+
+        .editorial-btn:hover {
+            background: #fff;
+            color: var(--text-primary);
+        }
+
+        /* ===== TRUST BAR ===== */
+        .trust-bar {
+            border-top: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
+            padding: 50px 40px;
+            margin-bottom: 100px;
+        }
+
+        .trust-grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 40px;
+            text-align: center;
+        }
+
+        .trust-item svg {
+            width: 28px;
+            height: 28px;
+            margin-bottom: 14px;
+            color: var(--accent-dark);
+        }
+
+        .trust-item h4 {
+            font-size: 0.75rem;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            font-weight: 600;
+            margin-bottom: 6px;
+        }
+
+        .trust-item p {
+            font-size: 0.78rem;
+            color: var(--text-muted);
+            line-height: 1.5;
+        }
+
+        /* ===== NEWSLETTER ===== */
+        .newsletter {
+            padding: 100px 40px;
+            text-align: center;
+            background: var(--text-primary);
+            color: #fff;
+        }
+
+        .newsletter h2 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(2rem, 4vw, 2.8rem);
+            font-weight: 300;
+            margin-bottom: 12px;
+        }
+
+        .newsletter p {
+            color: rgba(255,255,255,0.5);
+            font-size: 0.85rem;
+            margin-bottom: 32px;
+            letter-spacing: 0.03em;
+        }
+
+        .newsletter-form {
+            display: flex;
+            max-width: 480px;
+            margin: 0 auto;
+            gap: 0;
+        }
+
+        .newsletter-form input {
+            flex: 1;
+            padding: 14px 20px;
+            border: 1px solid rgba(255,255,255,0.2);
+            background: transparent;
+            color: #fff;
+            font-size: 0.85rem;
+            font-family: inherit;
+            outline: none;
+            border-right: none;
+            transition: border-color 0.3s;
+        }
+
+        .newsletter-form input::placeholder {
+            color: rgba(255,255,255,0.3);
+        }
+
+        .newsletter-form input:focus {
+            border-color: var(--accent);
+        }
+
+        .newsletter-form button {
+            padding: 14px 28px;
+            background: var(--accent);
+            border: 1px solid var(--accent);
+            color: #fff;
+            font-size: 0.72rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            font-weight: 600;
+            cursor: pointer;
+            font-family: inherit;
+            transition: background 0.3s;
+        }
+
+        .newsletter-form button:hover {
+            background: var(--accent-dark);
+            border-color: var(--accent-dark);
+        }
+
+        /* ===== FOOTER ===== */
+        .footer {
+            background: #141210;
+            color: rgba(255,255,255,0.5);
+            padding: 60px 40px 40px;
+        }
+
+        .footer-grid {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 60px;
+            margin-bottom: 60px;
+        }
+
+        .footer-brand h3 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.4rem;
+            color: #fff;
+            font-weight: 400;
+            letter-spacing: 0.08em;
+            margin-bottom: 16px;
+        }
+
+        .footer-brand p {
+            font-size: 0.8rem;
+            line-height: 1.8;
+            max-width: 300px;
+        }
+
+        .footer-col h4 {
+            font-size: 0.7rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.8);
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+
+        .footer-col ul {
+            list-style: none;
+        }
+
+        .footer-col li {
+            margin-bottom: 10px;
+        }
+
+        .footer-col a {
+            color: rgba(255,255,255,0.4);
+            text-decoration: none;
+            font-size: 0.8rem;
+            transition: color 0.3s;
+        }
+
+        .footer-col a:hover {
+            color: var(--accent);
+        }
+
+        .footer-bottom {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255,255,255,0.08);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.72rem;
+        }
+
+        .footer-social {
+            display: flex;
+            gap: 16px;
+        }
+
+        .footer-social a {
+            color: rgba(255,255,255,0.4);
+            text-decoration: none;
+            transition: color 0.3s;
+            font-size: 0.8rem;
+        }
+
+        .footer-social a:hover {
+            color: var(--accent);
+        }
+
+        /* ===== CART DRAWER ===== */
+        .cart-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.4);
+            z-index: 9998;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s;
+        }
+
+        .cart-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .cart-drawer {
+            position: fixed;
+            top: 0;
+            right: 0;
+            width: 420px;
+            max-width: 90vw;
+            height: 100vh;
+            background: #fff;
+            z-index: 9999;
+            transform: translateX(100%);
+            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .cart-drawer.active {
+            transform: translateX(0);
+        }
+
+        .cart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 24px 28px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .cart-header h3 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.3rem;
+            font-weight: 500;
+        }
+
+        .cart-close {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--text-secondary);
+            padding: 4px;
+        }
+
+        .cart-body {
+            flex: 1;
+            padding: 28px;
+            overflow-y: auto;
+        }
+
+        .cart-empty {
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--text-muted);
+        }
+
+        .cart-empty p {
+            font-size: 0.85rem;
+            margin-bottom: 20px;
+        }
+
+        .cart-item {
+            display: flex;
+            gap: 16px;
+            padding: 16px 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .cart-item-image {
+            width: 80px;
+            height: 80px;
+            border-radius: 4px;
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .cart-item-info {
+            flex: 1;
+        }
+
+        .cart-item-name {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1rem;
+            margin-bottom: 4px;
+        }
+
+        .cart-item-variant {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            margin-bottom: 8px;
+        }
+
+        .cart-item-bottom {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .cart-qty {
+            display: flex;
+            align-items: center;
+            border: 1px solid var(--border);
+            border-radius: 4px;
+        }
+
+        .cart-qty button {
+            width: 28px;
+            height: 28px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        .cart-qty span {
+            width: 28px;
+            text-align: center;
+            font-size: 0.8rem;
+        }
+
+        .cart-item-price {
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+
+        .cart-item-remove {
+            background: none;
+            border: none;
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            cursor: pointer;
+            text-decoration: underline;
+            margin-top: 4px;
+        }
+
+        .cart-footer {
+            padding: 24px 28px;
+            border-top: 1px solid var(--border);
+        }
+
+        .cart-subtotal {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            font-size: 0.85rem;
+        }
+
+        .cart-subtotal .label {
+            color: var(--text-secondary);
+        }
+
+        .cart-note {
+            font-size: 0.72rem;
+            color: var(--text-muted);
+            margin-bottom: 16px;
+        }
+
+        .cart-checkout {
+            display: block;
+            width: 100%;
+            padding: 16px;
+            background: var(--text-primary);
+            color: #fff;
+            border: none;
+            font-size: 0.75rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            font-weight: 600;
+            cursor: pointer;
+            font-family: inherit;
+            transition: background 0.3s;
+            text-align: center;
+        }
+
+        .cart-checkout:hover {
+            background: #333;
+        }
+
+        /* ===== SIZE SELECTOR MODAL ===== */
+        .size-modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.5);
+            z-index: 10000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .size-modal-overlay.active {
+            display: flex;
+        }
+
+        .size-modal {
+            background: #fff;
+            border-radius: 12px;
+            padding: 32px;
+            max-width: 380px;
+            width: 90%;
+        }
+
+        .size-modal h3 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.3rem;
+            margin-bottom: 4px;
+        }
+
+        .size-modal .modal-product-cat {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+        }
+
+        .size-options {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 8px;
+            margin-bottom: 20px;
+        }
+
+        .size-btn {
+            padding: 10px;
+            border: 1px solid var(--border);
+            background: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            font-family: inherit;
+            transition: all 0.2s;
+        }
+
+        .size-btn:hover, .size-btn.selected {
+            border-color: var(--text-primary);
+            background: var(--text-primary);
+            color: #fff;
+        }
+
+        .size-modal-add {
+            width: 100%;
+            padding: 14px;
+            background: var(--text-primary);
+            color: #fff;
+            border: none;
+            font-size: 0.72rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            font-weight: 600;
+            cursor: pointer;
+            font-family: inherit;
+            border-radius: 4px;
+            transition: background 0.3s;
+        }
+
+        .size-modal-add:hover {
+            background: #333;
+        }
+
+        .size-modal-cancel {
+            width: 100%;
+            padding: 10px;
+            background: none;
+            border: none;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            cursor: pointer;
+            margin-top: 8px;
+            font-family: inherit;
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 1024px) {
+            .categories-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .editorial-grid {
+                grid-template-columns: 1fr;
+            }
+            .editorial-content {
+                padding: 60px 40px;
+            }
+            .footer-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 40px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-links { display: none; }
+            .nav-toggle { display: block; }
+            .nav-inner { padding: 0 20px; }
+            .hero { height: 80vh; min-height: 500px; }
+            .categories { padding: 60px 20px; }
+            .categories-grid { grid-template-columns: 1fr 1fr; }
+            .products-section { padding: 60px 20px 80px; }
+            .product-grid { grid-template-columns: repeat(2, 1fr); gap: 16px; }
+            .editorial { padding: 0 20px; margin-bottom: 60px; }
+            .editorial-content { padding: 40px 28px; }
+            .trust-grid { grid-template-columns: 1fr 1fr; }
+            .newsletter { padding: 60px 20px; }
+            .newsletter-form { flex-direction: column; }
+            .newsletter-form input { border-right: 1px solid rgba(255,255,255,0.2); }
+            .footer { padding: 40px 20px 30px; }
+            .footer-grid { grid-template-columns: 1fr; gap: 30px; }
+            .footer-bottom { flex-direction: column; gap: 16px; text-align: center; }
+        }
+
+        @media (max-width: 480px) {
+            .product-grid { grid-template-columns: 1fr; max-width: 360px; margin: 0 auto; }
+            .categories-grid { grid-template-columns: 1fr; }
+            .trust-grid { grid-template-columns: 1fr; }
+        }
+
+        /* ===== PRODUCT IMAGE BACKGROUNDS ===== */
+        .img-rings { background: linear-gradient(145deg, #f0ece7, #e0d8ce); }
+        .img-chains { background: linear-gradient(145deg, #e8e8e8, #d0d0d0); }
+        .img-earrings { background: linear-gradient(145deg, #ede7df, #d8cfc4); }
+        .img-belly { background: linear-gradient(145deg, #e5e0db, #d4ccc2); }
+        .img-set { background: linear-gradient(145deg, #e8e2dc, #d5ccc2); }
+
+        /* ===== NOTIFICATION TOAST ===== */
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: var(--text-primary);
+            color: #fff;
+            padding: 14px 28px;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            z-index: 10001;
+            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            pointer-events: none;
+        }
+
+        .toast.show {
+            transform: translateX(-50%) translateY(0);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Announcement Bar -->
+    <div class="announcement-bar">
+        Wholesale pricing available — Sterling silver from $5 &nbsp;|&nbsp; <a href="#products">Shop Now</a>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="nav">
+        <div class="nav-inner">
+            <a href="#" class="nav-logo">AJ <span>International</span></a>
+            <ul class="nav-links">
+                <li><a href="#collections">Collections</a></li>
+                <li><a href="#products">Shop All</a></li>
+                <li><a href="#about">Our Story</a></li>
+                <li><a href="#wholesale">Wholesale</a></li>
+            </ul>
+            <div class="nav-icons">
+                <button class="nav-icon" aria-label="Search">Search</button>
+                <button class="nav-icon" aria-label="Account">Account</button>
+                <button class="nav-icon" onclick="toggleCart()" aria-label="Cart">
+                    Cart <span class="cart-count" id="cartCount">0</span>
+                </button>
+            </div>
+            <button class="nav-toggle" onclick="document.querySelector('.nav-links').style.display = document.querySelector('.nav-links').style.display === 'flex' ? 'none' : 'flex'" aria-label="Menu">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Hero -->
+    <section class="hero">
+        <div class="hero-bg"></div>
+        <div class="hero-shimmer"></div>
+        <div class="hero-particles" id="particles"></div>
+        <div class="hero-content">
+            <p class="hero-eyebrow">Sterling Silver Collection</p>
+            <h1 class="hero-title">Wear Your <em>Silver</em><br>Story</h1>
+            <p class="hero-subtitle">Handcrafted .925 sterling silver jewelry. Timeless pieces designed for everyday elegance — rings, chains, earrings & body jewelry.</p>
+            <a href="#products" class="hero-cta">Shop the Collection</a>
+        </div>
+        <div class="hero-scroll"><span></span></div>
+    </section>
+
+    <!-- Categories -->
+    <section class="categories" id="collections">
+        <div class="section-header">
+            <p>Curated For You</p>
+            <h2>Shop by Category</h2>
+            <div class="section-divider"></div>
+        </div>
+        <div class="categories-grid">
+            <div class="category-card" onclick="scrollToProducts()">
+                <div class="category-card-bg"></div>
+                <div class="category-icon">
+                    <svg viewBox="0 0 100 100" fill="none" stroke="rgba(255,255,255,0.6)" stroke-width="1.5">
+                        <circle cx="50" cy="50" r="30"/><circle cx="50" cy="50" r="22"/>
+                        <circle cx="50" cy="20" r="5"/>
+                    </svg>
+                </div>
+                <div class="category-label"><h3>Rings</h3><p>From $5</p></div>
+            </div>
+            <div class="category-card" onclick="scrollToProducts()">
+                <div class="category-card-bg"></div>
+                <div class="category-icon">
+                    <svg viewBox="0 0 100 100" fill="none" stroke="rgba(255,255,255,0.6)" stroke-width="1.5">
+                        <path d="M30 15 Q50 10 70 15" /><path d="M50 15 L50 85" />
+                        <circle cx="50" cy="85" r="6"/>
+                    </svg>
+                </div>
+                <div class="category-label"><h3>Chains</h3><p>From $8</p></div>
+            </div>
+            <div class="category-card" onclick="scrollToProducts()">
+                <div class="category-card-bg"></div>
+                <div class="category-icon">
+                    <svg viewBox="0 0 100 100" fill="none" stroke="rgba(255,255,255,0.6)" stroke-width="1.5">
+                        <path d="M50 20 L50 40"/><circle cx="50" cy="55" r="15"/>
+                        <circle cx="50" cy="55" r="8"/>
+                    </svg>
+                </div>
+                <div class="category-label"><h3>Earrings</h3><p>From $5</p></div>
+            </div>
+            <div class="category-card" onclick="scrollToProducts()">
+                <div class="category-card-bg"></div>
+                <div class="category-icon">
+                    <svg viewBox="0 0 100 100" fill="none" stroke="rgba(255,255,255,0.6)" stroke-width="1.5">
+                        <circle cx="50" cy="40" r="8"/><path d="M50 48 L50 70"/>
+                        <circle cx="50" cy="75" r="5"/>
+                    </svg>
+                </div>
+                <div class="category-label"><h3>Body Jewelry</h3><p>From $7</p></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Products -->
+    <section class="products-section" id="products">
+        <div class="section-header">
+            <p>The Collection</p>
+            <h2>Sterling Silver Essentials</h2>
+            <div class="section-divider"></div>
+        </div>
+        <div class="product-grid" id="productGrid">
+            <!-- Products injected by JS -->
+        </div>
+    </section>
+
+    <!-- Editorial Banner -->
+    <section class="editorial" id="about">
+        <div class="editorial-grid">
+            <div class="editorial-image">
+                <div class="editorial-image-inner">
+                    <svg viewBox="0 0 200 200" fill="none" stroke="rgba(0,0,0,0.3)" stroke-width="1">
+                        <circle cx="100" cy="100" r="60"/>
+                        <circle cx="100" cy="100" r="50"/>
+                        <circle cx="100" cy="40" r="10"/>
+                        <path d="M60 100 Q100 140 140 100"/>
+                    </svg>
+                </div>
+            </div>
+            <div class="editorial-content">
+                <p class="editorial-eyebrow">Our Story</p>
+                <h2 class="editorial-title">Crafted With Purpose, Priced With Integrity</h2>
+                <p class="editorial-text">AJ International brings premium .925 sterling silver jewelry direct to you. Every piece is crafted for durability and everyday wearability — no markup, no middlemen. Wholesale quality at prices that make sense.</p>
+                <a href="#wholesale" class="editorial-btn">Learn About Wholesale</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Trust Bar -->
+    <div class="trust-bar">
+        <div class="trust-grid">
+            <div class="trust-item">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                </svg>
+                <h4>.925 Sterling</h4>
+                <p>Authentic sterling silver, every piece stamped and verified</p>
+            </div>
+            <div class="trust-item">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                    <rect x="1" y="3" width="22" height="18" rx="2"/><path d="M1 9h22"/>
+                </svg>
+                <h4>Secure Checkout</h4>
+                <p>Shopify-powered payments with SSL encryption</p>
+            </div>
+            <div class="trust-item">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                    <path d="M5 12h14M12 5l7 7-7 7"/>
+                </svg>
+                <h4>Fast Shipping</h4>
+                <p>Orders processed within 1-2 business days</p>
+            </div>
+            <div class="trust-item" id="wholesale">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                    <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/>
+                </svg>
+                <h4>Wholesale Ready</h4>
+                <p>Bulk pricing available for retailers and resellers</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Newsletter -->
+    <section class="newsletter">
+        <h2>Stay in the Loop</h2>
+        <p>New drops, restocks, and exclusive wholesale offers — straight to your inbox.</p>
+        <form class="newsletter-form" onsubmit="event.preventDefault(); showToast('Thanks for subscribing!')">
+            <input type="email" placeholder="Your email address" required>
+            <button type="submit">Subscribe</button>
+        </form>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-grid">
+            <div class="footer-brand">
+                <h3>AJ International</h3>
+                <p>Premium sterling silver jewelry at honest wholesale prices. Designed for the modern wearer.</p>
+            </div>
+            <div class="footer-col">
+                <h4>Shop</h4>
+                <ul>
+                    <li><a href="#products">All Jewelry</a></li>
+                    <li><a href="#collections">Rings</a></li>
+                    <li><a href="#collections">Chains</a></li>
+                    <li><a href="#collections">Earrings</a></li>
+                    <li><a href="#collections">Body Jewelry</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Info</h4>
+                <ul>
+                    <li><a href="#">About Us</a></li>
+                    <li><a href="#">Wholesale Inquiry</a></li>
+                    <li><a href="#">Shipping & Returns</a></li>
+                    <li><a href="#">Size Guide</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Support</h4>
+                <ul>
+                    <li><a href="#">Contact Us</a></li>
+                    <li><a href="#">FAQ</a></li>
+                    <li><a href="#">Privacy Policy</a></li>
+                    <li><a href="#">Terms of Service</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <span>&copy; 2026 AJ International. All rights reserved.</span>
+            <div class="footer-social">
+                <a href="#">Instagram</a>
+                <a href="#">TikTok</a>
+                <a href="#">Pinterest</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Cart Drawer -->
+    <div class="cart-overlay" id="cartOverlay" onclick="toggleCart()"></div>
+    <div class="cart-drawer" id="cartDrawer">
+        <div class="cart-header">
+            <h3>Your Cart</h3>
+            <button class="cart-close" onclick="toggleCart()">&times;</button>
+        </div>
+        <div class="cart-body" id="cartBody">
+            <div class="cart-empty">
+                <p>Your cart is empty</p>
+                <a href="#products" class="hero-cta" style="border-color: var(--text-primary); color: var(--text-primary); font-size: 0.7rem;" onclick="toggleCart()">Continue Shopping</a>
+            </div>
+        </div>
+        <div class="cart-footer" id="cartFooter" style="display:none;">
+            <div class="cart-subtotal">
+                <span class="label">Subtotal</span>
+                <span id="cartSubtotal">$0.00</span>
+            </div>
+            <p class="cart-note">Shipping & taxes calculated at checkout</p>
+            <button class="cart-checkout" onclick="showToast('Redirecting to Shopify checkout...')">Checkout</button>
+        </div>
+    </div>
+
+    <!-- Size Selector Modal -->
+    <div class="size-modal-overlay" id="sizeModal">
+        <div class="size-modal">
+            <h3 id="sizeModalTitle">Select Size</h3>
+            <p class="modal-product-cat" id="sizeModalCat"></p>
+            <div class="size-options" id="sizeOptions"></div>
+            <button class="size-modal-add" id="sizeModalAdd">Add to Cart</button>
+            <button class="size-modal-cancel" onclick="closeSizeModal()">Cancel</button>
+        </div>
+    </div>
+
+    <!-- Toast -->
+    <div class="toast" id="toast"></div>
+
+    <script>
+    // ===== PRODUCT DATA (Shopify-compatible schema) =====
+    const products = [
+        {
+            id: 1,
+            title: "Minimalist Band Ring",
+            type: "Rings",
+            price: 5.00,
+            compare_at_price: null,
+            badge: "bestseller",
+            variants: [
+                { id: 101, title: "5", available: true },
+                { id: 102, title: "6", available: true },
+                { id: 103, title: "7", available: true },
+                { id: 104, title: "8", available: true },
+                { id: 105, title: "9", available: true }
+            ],
+            colors: ["#c0c0c0", "#d4af37"],
+            image_class: "img-rings",
+            svg: '<svg viewBox="0 0 120 120" fill="none" stroke="#888" stroke-width="1.5"><ellipse cx="60" cy="60" rx="40" ry="42"/><ellipse cx="60" cy="60" rx="32" ry="34"/></svg>'
+        },
+        {
+            id: 2,
+            title: "Twisted Rope Chain",
+            type: "Chains",
+            price: 12.00,
+            compare_at_price: null,
+            badge: "new",
+            variants: [
+                { id: 201, title: '16"', available: true },
+                { id: 202, title: '18"', available: true },
+                { id: 203, title: '20"', available: true },
+                { id: 204, title: '24"', available: true }
+            ],
+            colors: ["#c0c0c0"],
+            image_class: "img-chains",
+            svg: '<svg viewBox="0 0 120 120" fill="none" stroke="#888" stroke-width="1.5"><path d="M35 20 Q60 15 85 20"/><path d="M35 20 Q30 50 40 80 Q50 100 60 105 Q70 100 80 80 Q90 50 85 20"/><circle cx="60" cy="105" r="4" fill="#888"/></svg>'
+        },
+        {
+            id: 3,
+            title: "Classic Hoop Earrings",
+            type: "Earrings",
+            price: 7.00,
+            compare_at_price: null,
+            badge: "bestseller",
+            variants: [
+                { id: 301, title: "Small", available: true },
+                { id: 302, title: "Medium", available: true },
+                { id: 303, title: "Large", available: true }
+            ],
+            colors: ["#c0c0c0"],
+            image_class: "img-earrings",
+            svg: '<svg viewBox="0 0 120 120" fill="none" stroke="#888" stroke-width="1.5"><path d="M45 25 L45 35"/><ellipse cx="45" cy="60" rx="18" ry="25"/><path d="M75 25 L75 35"/><ellipse cx="75" cy="60" rx="18" ry="25"/></svg>'
+        },
+        {
+            id: 4,
+            title: "Crystal Belly Ring",
+            type: "Body Jewelry",
+            price: 8.00,
+            compare_at_price: null,
+            badge: "new",
+            variants: [
+                { id: 401, title: "Standard", available: true }
+            ],
+            colors: ["#c0c0c0", "#e8c4d8"],
+            image_class: "img-belly",
+            svg: '<svg viewBox="0 0 120 120" fill="none" stroke="#888" stroke-width="1.5"><circle cx="60" cy="30" r="8"/><path d="M60 38 L60 70"/><path d="M50 75 L60 95 L70 75 Z" fill="rgba(136,136,136,0.15)"/><circle cx="60" cy="75" r="3" fill="#888"/></svg>'
+        },
+        {
+            id: 5,
+            title: "Figaro Link Chain",
+            type: "Chains",
+            price: 15.00,
+            compare_at_price: 20.00,
+            badge: "sale",
+            variants: [
+                { id: 501, title: '18"', available: true },
+                { id: 502, title: '20"', available: true },
+                { id: 503, title: '22"', available: true },
+                { id: 504, title: '24"', available: true }
+            ],
+            colors: ["#c0c0c0"],
+            image_class: "img-chains",
+            svg: '<svg viewBox="0 0 120 120" fill="none" stroke="#888" stroke-width="1.5"><rect x="30" y="35" width="20" height="10" rx="4"/><rect x="50" y="35" width="10" height="10" rx="4"/><rect x="60" y="35" width="20" height="10" rx="4"/><rect x="80" y="35" width="10" height="10" rx="4"/><rect x="30" y="55" width="20" height="10" rx="4"/><rect x="50" y="55" width="10" height="10" rx="4"/><rect x="60" y="55" width="20" height="10" rx="4"/><rect x="80" y="55" width="10" height="10" rx="4"/><rect x="30" y="75" width="20" height="10" rx="4"/><rect x="50" y="75" width="10" height="10" rx="4"/><rect x="60" y="75" width="20" height="10" rx="4"/></svg>'
+        },
+        {
+            id: 6,
+            title: "Signet Ring",
+            type: "Rings",
+            price: 10.00,
+            compare_at_price: null,
+            badge: null,
+            variants: [
+                { id: 601, title: "6", available: true },
+                { id: 602, title: "7", available: true },
+                { id: 603, title: "8", available: true },
+                { id: 604, title: "9", available: true },
+                { id: 605, title: "10", available: true }
+            ],
+            colors: ["#c0c0c0"],
+            image_class: "img-rings",
+            svg: '<svg viewBox="0 0 120 120" fill="none" stroke="#888" stroke-width="1.5"><ellipse cx="60" cy="65" rx="35" ry="37"/><ellipse cx="60" cy="65" rx="27" ry="29"/><rect x="42" y="25" width="36" height="22" rx="4" fill="rgba(136,136,136,0.1)"/></svg>'
+        },
+        {
+            id: 7,
+            title: "Drop Dangle Earrings",
+            type: "Earrings",
+            price: 9.00,
+            compare_at_price: null,
+            badge: null,
+            variants: [
+                { id: 701, title: "Standard", available: true }
+            ],
+            colors: ["#c0c0c0", "#d4af37"],
+            image_class: "img-earrings",
+            svg: '<svg viewBox="0 0 120 120" fill="none" stroke="#888" stroke-width="1.5"><path d="M40 20 L40 30"/><circle cx="40" cy="40" r="8"/><path d="M40 48 L40 65"/><path d="M34 70 L40 85 L46 70 Z"/><path d="M80 20 L80 30"/><circle cx="80" cy="40" r="8"/><path d="M80 48 L80 65"/><path d="M74 70 L80 85 L86 70 Z"/></svg>'
+        },
+        {
+            id: 8,
+            title: "Snake Chain",
+            type: "Chains",
+            price: 10.00,
+            compare_at_price: null,
+            badge: null,
+            variants: [
+                { id: 801, title: '16"', available: true },
+                { id: 802, title: '18"', available: true },
+                { id: 803, title: '20"', available: true }
+            ],
+            colors: ["#c0c0c0"],
+            image_class: "img-chains",
+            svg: '<svg viewBox="0 0 120 120" fill="none" stroke="#888" stroke-width="2"><path d="M30 30 Q45 25 50 40 Q55 55 70 50 Q85 45 80 60 Q75 75 90 70"/><circle cx="90" cy="70" r="3" fill="#888"/></svg>'
+        },
+        {
+            id: 9,
+            title: "Curved Barbell Belly Ring",
+            type: "Body Jewelry",
+            price: 7.00,
+            compare_at_price: null,
+            badge: null,
+            variants: [
+                { id: 901, title: "Standard", available: true }
+            ],
+            colors: ["#c0c0c0", "#87CEEB"],
+            image_class: "img-belly",
+            svg: '<svg viewBox="0 0 120 120" fill="none" stroke="#888" stroke-width="1.5"><circle cx="60" cy="30" r="6" fill="rgba(136,136,136,0.2)"/><path d="M60 36 Q55 55 58 75 Q59 82 60 85"/><circle cx="60" cy="90" r="5"/></svg>'
+        },
+        {
+            id: 10,
+            title: "Stackable Thin Ring Set",
+            type: "Rings",
+            price: 12.00,
+            compare_at_price: 18.00,
+            badge: "sale",
+            variants: [
+                { id: 1001, title: "5", available: true },
+                { id: 1002, title: "6", available: true },
+                { id: 1003, title: "7", available: true },
+                { id: 1004, title: "8", available: true }
+            ],
+            colors: ["#c0c0c0"],
+            image_class: "img-set",
+            svg: '<svg viewBox="0 0 120 120" fill="none" stroke="#888" stroke-width="1.2"><ellipse cx="60" cy="45" rx="35" ry="12"/><ellipse cx="60" cy="60" rx="35" ry="12"/><ellipse cx="60" cy="75" rx="35" ry="12"/></svg>'
+        },
+        {
+            id: 11,
+            title: "Stud Earrings — Round",
+            type: "Earrings",
+            price: 5.00,
+            compare_at_price: null,
+            badge: "bestseller",
+            variants: [
+                { id: 1101, title: "3mm", available: true },
+                { id: 1102, title: "4mm", available: true },
+                { id: 1103, title: "5mm", available: true }
+            ],
+            colors: ["#c0c0c0", "#d4af37"],
+            image_class: "img-earrings",
+            svg: '<svg viewBox="0 0 120 120" fill="none" stroke="#888" stroke-width="1.5"><circle cx="42" cy="55" r="14" fill="rgba(136,136,136,0.1)"/><path d="M42 69 L42 80"/><circle cx="78" cy="55" r="14" fill="rgba(136,136,136,0.1)"/><path d="M78 69 L78 80"/></svg>'
+        },
+        {
+            id: 12,
+            title: "Cuban Link Bracelet",
+            type: "Chains",
+            price: 18.00,
+            compare_at_price: null,
+            badge: "new",
+            variants: [
+                { id: 1201, title: '7"', available: true },
+                { id: 1202, title: '8"', available: true },
+                { id: 1203, title: '9"', available: true }
+            ],
+            colors: ["#c0c0c0"],
+            image_class: "img-chains",
+            svg: '<svg viewBox="0 0 120 120" fill="none" stroke="#888" stroke-width="1.5"><path d="M20 55 Q30 45 40 55 Q50 65 60 55 Q70 45 80 55 Q90 65 100 55"/><path d="M20 65 Q30 55 40 65 Q50 75 60 65 Q70 55 80 65 Q90 75 100 65"/></svg>'
+        }
+    ];
+
+    // ===== CART STATE =====
+    let cart = [];
+
+    // ===== RENDER PRODUCTS =====
+    function renderProducts() {
+        const grid = document.getElementById('productGrid');
+        grid.innerHTML = products.map(p => {
+            const badgeHTML = p.badge
+                ? `<span class="product-badge badge-${p.badge}">${p.badge === 'bestseller' ? 'Best Seller' : p.badge === 'new' ? 'New' : 'Sale'}</span>`
+                : '';
+            const priceHTML = p.compare_at_price
+                ? `<span class="original">$${p.compare_at_price.toFixed(2)}</span>$${p.price.toFixed(2)}`
+                : `$${p.price.toFixed(2)}`;
+            const colorsHTML = p.colors.length > 1
+                ? `<div class="product-variants">${p.colors.map(c => `<span class="variant-dot" style="background:${c}"></span>`).join('')}</div>`
+                : '';
+            return `
+                <div class="product-card" data-product-id="${p.id}">
+                    ${badgeHTML}
+                    <div class="product-image">
+                        <div class="product-image-bg ${p.image_class}">
+                            <div class="product-visual">${p.svg}</div>
+                        </div>
+                        <button class="product-quick-add" onclick="openSizeModal(${p.id})">Quick Add</button>
+                    </div>
+                    <div class="product-info">
+                        <p class="product-category">${p.type}</p>
+                        <h3 class="product-name">${p.title}</h3>
+                        <p class="product-price">${priceHTML}</p>
+                        ${colorsHTML}
+                    </div>
+                </div>`;
+        }).join('');
+    }
+
+    // ===== SIZE MODAL =====
+    let selectedProduct = null;
+    let selectedSize = null;
+
+    function openSizeModal(productId) {
+        selectedProduct = products.find(p => p.id === productId);
+        selectedSize = null;
+        const modal = document.getElementById('sizeModal');
+        document.getElementById('sizeModalTitle').textContent = selectedProduct.title;
+        document.getElementById('sizeModalCat').textContent = selectedProduct.type;
+        const opts = document.getElementById('sizeOptions');
+
+        if (selectedProduct.variants.length === 1) {
+            selectedSize = selectedProduct.variants[0].title;
+            addToCart();
+            return;
+        }
+
+        opts.innerHTML = selectedProduct.variants.map(v =>
+            `<button class="size-btn" onclick="selectSize(this, '${v.title}')">${v.title}</button>`
+        ).join('');
+        modal.classList.add('active');
+    }
+
+    function selectSize(btn, size) {
+        document.querySelectorAll('.size-btn').forEach(b => b.classList.remove('selected'));
+        btn.classList.add('selected');
+        selectedSize = size;
+    }
+
+    function closeSizeModal() {
+        document.getElementById('sizeModal').classList.remove('active');
+        selectedProduct = null;
+        selectedSize = null;
+    }
+
+    document.getElementById('sizeModalAdd').onclick = function() {
+        if (!selectedSize) {
+            showToast('Please select a size');
+            return;
+        }
+        addToCart();
+        closeSizeModal();
+    };
+
+    // ===== CART =====
+    function addToCart() {
+        const existing = cart.find(i => i.id === selectedProduct.id && i.size === selectedSize);
+        if (existing) {
+            existing.qty++;
+        } else {
+            cart.push({
+                id: selectedProduct.id,
+                title: selectedProduct.title,
+                type: selectedProduct.type,
+                price: selectedProduct.price,
+                size: selectedSize,
+                qty: 1,
+                image_class: selectedProduct.image_class
+            });
+        }
+        updateCart();
+        showToast(`${selectedProduct.title} added to cart`);
+        if (!document.getElementById('cartDrawer').classList.contains('active')) {
+            toggleCart();
+        }
+    }
+
+    function removeFromCart(index) {
+        cart.splice(index, 1);
+        updateCart();
+    }
+
+    function updateQty(index, delta) {
+        cart[index].qty += delta;
+        if (cart[index].qty <= 0) cart.splice(index, 1);
+        updateCart();
+    }
+
+    function updateCart() {
+        const count = cart.reduce((s, i) => s + i.qty, 0);
+        document.getElementById('cartCount').textContent = count;
+
+        const body = document.getElementById('cartBody');
+        const footer = document.getElementById('cartFooter');
+
+        if (cart.length === 0) {
+            body.innerHTML = '<div class="cart-empty"><p>Your cart is empty</p></div>';
+            footer.style.display = 'none';
+            return;
+        }
+
+        footer.style.display = 'block';
+        const subtotal = cart.reduce((s, i) => s + i.price * i.qty, 0);
+        document.getElementById('cartSubtotal').textContent = `$${subtotal.toFixed(2)}`;
+
+        body.innerHTML = cart.map((item, i) => `
+            <div class="cart-item">
+                <div class="cart-item-image ${item.image_class}"></div>
+                <div class="cart-item-info">
+                    <p class="cart-item-name">${item.title}</p>
+                    <p class="cart-item-variant">${item.type} / ${item.size}</p>
+                    <div class="cart-item-bottom">
+                        <div class="cart-qty">
+                            <button onclick="updateQty(${i}, -1)">&minus;</button>
+                            <span>${item.qty}</span>
+                            <button onclick="updateQty(${i}, 1)">+</button>
+                        </div>
+                        <span class="cart-item-price">$${(item.price * item.qty).toFixed(2)}</span>
+                    </div>
+                    <button class="cart-item-remove" onclick="removeFromCart(${i})">Remove</button>
+                </div>
+            </div>
+        `).join('');
+    }
+
+    function toggleCart() {
+        document.getElementById('cartDrawer').classList.toggle('active');
+        document.getElementById('cartOverlay').classList.toggle('active');
+        document.body.style.overflow = document.getElementById('cartDrawer').classList.contains('active') ? 'hidden' : '';
+    }
+
+    // ===== TOAST =====
+    function showToast(msg) {
+        const toast = document.getElementById('toast');
+        toast.textContent = msg;
+        toast.classList.add('show');
+        setTimeout(() => toast.classList.remove('show'), 2500);
+    }
+
+    // ===== PARTICLES =====
+    function createParticles() {
+        const container = document.getElementById('particles');
+        for (let i = 0; i < 30; i++) {
+            const p = document.createElement('div');
+            p.className = 'particle';
+            p.style.left = Math.random() * 100 + '%';
+            p.style.animationDuration = (8 + Math.random() * 12) + 's';
+            p.style.animationDelay = Math.random() * 10 + 's';
+            p.style.width = (1 + Math.random() * 2) + 'px';
+            p.style.height = p.style.width;
+            container.appendChild(p);
+        }
+    }
+
+    // ===== HELPERS =====
+    function scrollToProducts() {
+        document.getElementById('products').scrollIntoView({ behavior: 'smooth' });
+    }
+
+    // ===== INIT =====
+    createParticles();
+    renderProducts();
+    </script>
+
+</body>
+</html>
