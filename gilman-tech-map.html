@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CET Gilman Tech 2026 — Cohort Map</title>
+  <link rel="stylesheet"
+        href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+        integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+        crossorigin=""/>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      font-family: 'Helvetica Neue', Arial, sans-serif;
+    }
+    #map {
+      height: 100vh;
+      width: 100%;
+    }
+    #title-overlay {
+      position: absolute;
+      top: 15px;
+      left: 15px;
+      z-index: 1000;
+      background: rgba(255,255,255,0.93);
+      padding: 12px 16px;
+      border-radius: 6px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+      max-width: 250px;
+    }
+    #title-overlay h1 {
+      font-size: 1rem;
+      font-weight: 600;
+      margin: 0 0 3px 0;
+      color: #1a1a1a;
+    }
+    #title-overlay p {
+      font-size: 0.75rem;
+      color: #555;
+      margin: 0;
+    }
+    #loading-status {
+      font-size: 0.72rem;
+      color: #888;
+      margin-top: 6px;
+    }
+    #unknown-panel {
+      position: absolute;
+      bottom: 30px;
+      right: 15px;
+      z-index: 1000;
+      background: rgba(255,255,255,0.93);
+      border-radius: 6px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+      width: 230px;
+      font-size: 0.8rem;
+    }
+    #unknown-toggle {
+      padding: 10px 14px;
+      cursor: pointer;
+      font-weight: 600;
+      color: #1a1a1a;
+      user-select: none;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    #unknown-list {
+      padding: 0 14px 10px;
+      max-height: 200px;
+      overflow-y: auto;
+      display: none;
+    }
+    #unknown-list.open {
+      display: block;
+    }
+    .unknown-item {
+      padding: 4px 0;
+      color: #555;
+      border-bottom: 1px solid #eee;
+      font-size: 0.78rem;
+    }
+    .unknown-item:last-child {
+      border-bottom: none;
+    }
+    .popup-photo {
+      width: 80px;
+      height: 80px;
+      object-fit: cover;
+      border-radius: 50%;
+      float: left;
+      margin: 0 10px 6px 0;
+    }
+    .popup-inner::after {
+      content: '';
+      display: table;
+      clear: both;
+    }
+    .popup-inner h3 {
+      margin: 0 0 4px;
+      font-size: 0.95rem;
+      color: #1a1a1a;
+    }
+    .popup-location {
+      font-size: 0.75rem;
+      color: #777;
+      margin: 0 0 5px;
+    }
+    .popup-work {
+      font-size: 0.82rem;
+      color: #333;
+      margin: 0 0 4px;
+    }
+    .popup-abroad {
+      font-size: 0.78rem;
+      color: #666;
+      margin: 0 0 8px;
+    }
+    .popup-btn {
+      display: inline-block;
+      margin-right: 6px;
+      margin-top: 2px;
+      padding: 4px 10px;
+      font-size: 0.75rem;
+      border: none;
+      border-radius: 4px;
+      background: #0a66c2;
+      color: #fff;
+      cursor: pointer;
+    }
+    .popup-btn-ig {
+      background: #c13584;
+    }
+    .popup-btn:hover {
+      opacity: 0.85;
+    }
+  </style>
+</head>
+<body>
+  <div id="map"></div>
+
+  <div id="title-overlay">
+    <h1>CET Gilman Tech 2026</h1>
+    <p>San José Seminar Cohort</p>
+    <p id="loading-status">Loading markers...</p>
+  </div>
+
+  <div id="unknown-panel">
+    <div id="unknown-toggle" onclick="togglePanel()">
+      <span id="unknown-label">Location unknown</span>
+      <span id="unknown-arrow">▶</span>
+    </div>
+    <div id="unknown-list"></div>
+  </div>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+          integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+          crossorigin=""></script>
+  <script type="text/javascript">
+    const participants = [
+      { name: "Jorge Alvarez",
+        location: "Miami, FL",
+        studyAbroad: "Nanjing University, China",
+        workSummary: "Founder of Drone Permission; drone services, construction visualization, and certified drone instructor.",
+        photo: "assets/headshots/jorge-alvarez.jpg",
+        li: "", ig: "" },
+      { name: "Morgan Baker",
+        location: "West Virginia, USA",
+        studyAbroad: "Hong Kong, Spring 2025",
+        workSummary: "WVU student (Data Science & Economics); intern at U.S. Air Force Langley; WVU Cyber-Resilience fellow.",
+        photo: "assets/headshots/morgan-baker.jpg",
+        li: "", ig: "" },
+      { name: "Nancy Cao",
+        location: "New York City, NY",
+        studyAbroad: "Budapest, Hungary",
+        workSummary: "Senior PM at Capital One (NYC); prior Billing PM at Cloudflare.",
+        photo: "assets/headshots/nancy-cao.jpg",
+        li: "aHR0cHM6Ly93d3cubGlua2VkaW4uY29tL2luL25jYW8v", ig: "" },
+      { name: "Arsema Demeke",
+        location: "Washington, DC",
+        studyAbroad: "Ewha University, Seoul, South Korea (junior year)",
+        workSummary: "Systems Engineering consultant specializing in mission engineering and digital tech.",
+        photo: "assets/headshots/arsema-demeke.jpg",
+        li: "", ig: "" },
+      { name: "Bryan Dosono",
+        location: "New York City, NY",
+        studyAbroad: "Netherlands",
+        workSummary: "Principal UX Researcher in generative AI and mixed-methods research for consumer tech.",
+        photo: "assets/headshots/bryan-dosono.jpg",
+        li: "", ig: "" },
+      { name: "Jerry He",
+        location: "Orlando, FL",
+        studyAbroad: "Yonsei University International Summer School, Seoul, South Korea",
+        workSummary: "Software Engineering Intern on the Data & AI team at Universal Orlando.",
+        photo: "assets/headshots/jerry-he.jpg",
+        li: "aHR0cHM6Ly93d3cubGlua2VkaW4uY29tL2luL2plcnJ5aGVmbC8=", ig: "" },
+      { name: "Jeremy Hicks",
+        location: "Oklahoma City, OK",
+        studyAbroad: "South Korea (undergraduate)",
+        workSummary: "M.S. student at Oklahoma State; Global Trade Intern at Wes Watkins Center; Drill Sergeant, U.S. Army Reserve.",
+        photo: "assets/headshots/jeremy-hicks.jpg",
+        li: "aHR0cHM6Ly93d3cubGlua2VkaW4uY29tL2luL2hpY2tzbWov", ig: "" },
+      { name: "Sasha Hill",
+        location: "Ann Arbor, MI",
+        studyAbroad: "Research trips to India and Liberia",
+        workSummary: "University of Michigan student (Materials Engineering); joining General Motors as global product engineer.",
+        photo: "assets/headshots/sasha-hill.jpg",
+        li: "", ig: "" },
+      { name: "Aden Hizkias",
+        location: "Washington, DC",
+        studyAbroad: "Manchester, UK",
+        workSummary: "Associate Policy Director at Chamber of Progress; AI governance and energy/digital infrastructure policy.",
+        photo: "assets/headshots/aden-hizkias.jpg",
+        li: "", ig: "" },
+      { name: "Kyle Hudgins",
+        location: "Houston, TX",
+        studyAbroad: "Hong Kong, 2016 (Worcester Polytechnic Institute)",
+        workSummary: "Product Manager at Microsoft leading generative AI incubations for M365 Copilot.",
+        photo: "assets/headshots/kyle-hudgins.jpg",
+        li: "", ig: "" },
+      { name: "Connie Ip",
+        location: "Oakland, CA",
+        studyAbroad: "France",
+        workSummary: "AI-native Program Manager; experience at Meta Reality Labs, Google Play, Rubrik, and A.Team.",
+        photo: "assets/headshots/connie-ip.jpg",
+        li: "", ig: "" },
+      { name: "Randa Ismail",
+        location: "Omaha, NE",
+        studyAbroad: "Paris, France",
+        workSummary: "PhD student in Biomedical Sciences at Creighton University; researching hereditary hearing loss.",
+        photo: "assets/headshots/randa-ismail.jpg",
+        li: "", ig: "" },
+      { name: "Paris René James",
+        location: "New York City, NY",
+        studyAbroad: "Rome, Italy, Spring 2024",
+        workSummary: "Architecture graduate (Univ. of Miami); joining JRM Construction Management.",
+        photo: "assets/headshots/paris-rene-james.jpg",
+        li: "", ig: "" },
+      { name: "Anthony Kang",
+        location: "Chicago, IL",
+        studyAbroad: "Yonsei University, Seoul, South Korea, Summer 2022",
+        workSummary: "Embedded software engineer at a drone start-up.",
+        photo: "assets/headshots/anthony-kang.jpg",
+        li: "", ig: "" },
+      { name: "Benedicta Kwarteng",
+        location: "Washington, DC",
+        studyAbroad: "Yonsei University, Seoul, South Korea (2020 Gilman Scholar)",
+        workSummary: "Program Associate at Dcode; prior Congressional Research Service fellow; Diplomatic Fellow at AIT Taiwan.",
+        photo: "assets/headshots/benedicta-kwarteng.jpg",
+        li: "", ig: "" },
+      { name: "Sookyung Lee",
+        location: "Washington, DC",
+        studyAbroad: "University of St Andrews, Scotland",
+        workSummary: "ML engineer (NLP/deep learning); M.S. student and graduate TA at Georgia Tech.",
+        photo: "assets/headshots/sookyung-lee.jpg",
+        li: "", ig: "" },
+      { name: "Franciluz Lizardo-Bueno",
+        location: "Boston, MA",
+        studyAbroad: "Spain, 2022 (Marist College)",
+        workSummary: "Clinical Research Coordinator at Dana-Farber Cancer Institute; pursuing M.S. Data Analytics.",
+        photo: "assets/headshots/franciluz-lizardo-bueno.jpg",
+        li: "", ig: "" },
+      { name: "Tatiana Méndez Toro",
+        location: "Mayagüez, Puerto Rico",
+        studyAbroad: "Thammasat University, Thailand, 2012",
+        workSummary: "Agricultural Economics Specialist and professor at University of Puerto Rico, Mayagüez.",
+        photo: "assets/headshots/tatiana-mendez-toro.jpg",
+        li: "aHR0cHM6Ly93d3cubGlua2VkaW4uY29tL2luL3RhdGlhbmEtbWVuZGV6LTgyYmE1MDFiOS8=", ig: "" },
+      { name: "Spencer Mickus",
+        location: "Atlanta, GA",
+        studyAbroad: "Singapore, Spring 2017",
+        workSummary: "PhD candidate in Robotics at Georgia Tech; Graduate Research Assistant at GTRI.",
+        photo: "assets/headshots/spencer-mickus.jpg",
+        li: "", ig: "" },
+      { name: "Phillip Ng",
+        location: "Provo, Utah",
+        studyAbroad: "China, Summer 2016",
+        workSummary: "Product lead and engineer building AI-powered apps across nonprofits, government, healthcare, and construction.",
+        photo: "assets/headshots/phillip-ng.jpg",
+        li: "aHR0cHM6Ly93d3cubGlua2VkaW4uY29tL2luL3BoaWxsaXBzbmcv", ig: "" },
+      { name: "Dana Nguyen-Phan",
+        location: "Durham, NC",
+        studyAbroad: "Corvinus University of Budapest, Hungary, 2023",
+        workSummary: "Product Manager at IBM focused on hybrid cloud and AI-enabled enterprise systems.",
+        photo: "assets/headshots/dana-nguyen-phan.jpg",
+        li: "aHR0cHM6Ly93d3cubGlua2VkaW4uY29tL2luL2RhbmEtbnAv", ig: "" },
+      { name: "Ayomide Odeboh",
+        location: "Atlanta, GA",
+        studyAbroad: "South Africa (virtual during COVID-19)",
+        workSummary: "Project manager and tech consultant at Capgemini; banking tech, enterprise migrations, AI data analysis.",
+        photo: "assets/headshots/ayomide-odeboh.jpg",
+        li: "aHR0cHM6Ly93d3cubGlua2VkaW4uY29tL2luL2F5b21pZGUtb2RlYm9oLw==", ig: "" },
+      { name: "Shane O'Hanlon",
+        location: "Tennessee, USA",
+        studyAbroad: "Saint Petersburg State University, Russia, Summer 2012",
+        workSummary: "Leads engineering team at SureDone (e-commerce tech).",
+        photo: "assets/headshots/shane-ohanlon.jpg",
+        li: "aHR0cHM6Ly93d3cubGlua2VkaW4uY29tL2luL3NoYW5lLW9oYW5sb24v", ig: "" },
+      { name: "Hillary Osei",
+        location: "New York City, NY",
+        studyAbroad: "Ghana, Spring 2020 (NYU)",
+        workSummary: "AI, policy, and digital transformation; prior experience at J.P. Morgan, BCG, and Meta.",
+        photo: "assets/headshots/hillary-osei.jpg",
+        li: "", ig: "" },
+      { name: "Karen Palacios Echeverria",
+        location: "Los Angeles, CA",
+        studyAbroad: "Madrid, Spain, Fall 2025",
+        workSummary: "Junior at Occidental College (CS & Diplomacy/World Affairs); IT tech consulting intern.",
+        photo: "assets/headshots/karen-palacios-echeverria.jpg",
+        li: "aHR0cHM6Ly93d3cubGlua2VkaW4uY29tL2luL2thcmVuLXBhbGFjaW9zLw==", ig: "" },
+      { name: "Brenda Pham",
+        location: "Seattle, WA",
+        studyAbroad: "Vietnam, Summer 2023",
+        workSummary: "Production coordinator at SpaceX (B.A. Finance/Supply Chain).",
+        photo: "assets/headshots/brenda-pham.jpg",
+        li: "aHR0cHM6Ly93d3cubGlua2VkaW4uY29tL2luL2JyMXBoLw==", ig: "" },
+      { name: "Tristian Pittman",
+        location: "Sacramento, CA",
+        studyAbroad: "China, 2017",
+        workSummary: "Information Security Analyst; privacy, cybersecurity, data protection, and emerging tech risk.",
+        photo: "assets/headshots/tristian-pittman.jpg",
+        li: "aHR0cHM6Ly93d3cubGlua2VkaW4uY29tL2luL3RyaXN0aWFucC8=", ig: "" },
+      { name: "Dalila Portal",
+        location: "Gainesville, FL",
+        studyAbroad: "Dublin, Ireland, 2025",
+        workSummary: "CS student at University of Florida; Software Engineering intern in AI image captioning; Solutions Engineer intern.",
+        photo: "assets/headshots/dalila-portal.jpg",
+        li: "", ig: "" },
+      { name: "Heng Shen",
+        location: "Golden, CO",
+        studyAbroad: "Tunghai University, Taiwan",
+        workSummary: "B.S. EE student at Colorado School of Mines; quantum hardware research (SNTJ); upcoming internship at Bureau of Reclamation.",
+        photo: "assets/headshots/heng-shen.jpg",
+        li: "aHR0cHM6Ly93d3cubGlua2VkaW4uY29tL2luL2hlbmctc2hlbi8=", ig: "" },
+      { name: "Tak Chi Wan",
+        location: "New York City, NY",
+        studyAbroad: "China, Summer 2015",
+        workSummary: "Process improvement and AI automation at Amazon Finance org.",
+        photo: "assets/headshots/tak-chi-wan.jpg",
+        li: "", ig: "" }
+    ];
+
+    const locationCoords = {
+      "Miami, FL": { lat: 25.7741566, lng: -80.1935973 },
+      "West Virginia, USA": { lat: 38.4758406, lng: -80.8408415 },
+      "New York City, NY": { lat: 40.7127281, lng: -74.0060152 },
+      "Washington, DC": { lat: 38.8950982, lng: -77.0363849 },
+      "Orlando, FL": { lat: 28.5421218, lng: -81.379045 },
+      "Oklahoma City, OK": { lat: 35.4729886, lng: -97.5170536 },
+      "Ann Arbor, MI": { lat: 42.2813722, lng: -83.7484616 },
+      "Houston, TX": { lat: 29.7589382, lng: -95.3676974 },
+      "Oakland, CA": { lat: 37.8044557, lng: -122.271356 },
+      "Omaha, NE": { lat: 41.2587459, lng: -95.9383758 },
+      "Chicago, IL": { lat: 41.8755616, lng: -87.6244212 },
+      "Boston, MA": { lat: 42.3588336, lng: -71.0578303 },
+      "Mayagüez, Puerto Rico": { lat: 18.2116355, lng: -67.0953572 },
+      "Atlanta, GA": { lat: 33.7544657, lng: -84.3898151 },
+      "Provo, Utah": { lat: 40.2337289, lng: -111.6587085 },
+      "Durham, NC": { lat: 35.996653, lng: -78.9018053 },
+      "Tennessee, USA": { lat: 35.7730076, lng: -86.2820081 },
+      "Los Angeles, CA": { lat: 34.0536909, lng: -118.242766 },
+      "Seattle, WA": { lat: 47.6038321, lng: -122.330062 },
+      "Sacramento, CA": { lat: 38.5810606, lng: -121.493895 },
+      "Gainesville, FL": { lat: 29.6519684, lng: -82.3249846 },
+      "Golden, CO": { lat: 39.7546349, lng: -105.22058 }
+    };
+
+    function openLink(b64) {
+      if (!b64) return;
+      try { window.open(atob(b64), '_blank', 'noopener,noreferrer'); }
+      catch(e) { console.warn('Invalid link encoding'); }
+    }
+
+    function buildPopup(p) {
+      let html = `<div class="popup-inner">
+        ${p.photo ? `<img class="popup-photo" src="${p.photo}" alt="${p.name}">` : ''}
+        <h3>${p.name}</h3>
+        <p class="popup-location">${p.location}</p>
+        <p class="popup-work">${p.workSummary}</p>
+        <p class="popup-abroad"><em>Study abroad: ${p.studyAbroad}</em></p>`;
+      if (p.li) {
+        html += `<button class="popup-btn" onclick="openLink('${p.li}')">LinkedIn</button>`;
+      }
+      if (p.ig) {
+        html += `<button class="popup-btn popup-btn-ig" onclick="openLink('${p.ig}')">Instagram</button>`;
+      }
+      html += `</div>`;
+      return html;
+    }
+
+    function togglePanel() {
+      const list = document.getElementById('unknown-list');
+      const arrow = document.getElementById('unknown-arrow');
+      list.classList.toggle('open');
+      arrow.textContent = list.classList.contains('open') ? '▼' : '▶';
+    }
+
+    const map = L.map('map').setView([38.5, -96.0], 4);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      maxZoom: 18,
+      attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    }).addTo(map);
+
+    const unknown = participants.filter(p => !p.location);
+    const listEl = document.getElementById('unknown-list');
+    document.getElementById('unknown-label').textContent = `Location unknown (${unknown.length})`;
+    unknown.forEach(p => {
+      const item = document.createElement('div');
+      item.className = 'unknown-item';
+      item.textContent = p.name;
+      listEl.appendChild(item);
+    });
+
+    function loadMarkers() {
+      const known = participants.filter(p => p.location);
+      const statusEl = document.getElementById('loading-status');
+      const cityCount = {};
+      let placed = 0;
+
+      for (const p of known) {
+        const coords = locationCoords[p.location];
+        if (!coords) continue;
+
+        const n = cityCount[p.location] || 0;
+        cityCount[p.location] = n + 1;
+        const lat = coords.lat + n * 0.018;
+        const lng = coords.lng + n * 0.018;
+
+        L.marker([lat, lng]).addTo(map).bindPopup(buildPopup(p), { maxWidth: 300 });
+        placed++;
+      }
+
+      statusEl.textContent = `${placed} mapped · ${unknown.length} location unknown`;
+    }
+
+    loadMarkers();
+  </script>
+</body>
+</html>
