@@ -223,9 +223,9 @@
 			.apply-iframe {
 				width: 100%;
 				border: 0;
-				min-height: 900px;
+				min-height: 400px;
 				display: block;
-				background: var(--bg);
+				background: transparent;
 				border-radius: calc(var(--radius) - 2px);
 			}
 
@@ -314,14 +314,15 @@
 
 			<section class="apply" id="apply">
 				<h2>Apply for this job</h2>
-				<p class="apply-note">Submit your information and resume below. A Google account is required to upload your resume.</p>
+				<p class="apply-note">Submit your information and resume below &mdash; no account required.</p>
 				<iframe
 					class="apply-iframe"
-					src="https://docs.google.com/forms/d/e/1FAIpQLSeYUdAOl-9M8IAcel2Dkn8VThZN4SrqfMGdOI6v552-y_GteQ/viewform?embedded=true"
+					data-tally-src="https://tally.so/embed/NpBWAO?alignLeft=1&amp;hideTitle=1&amp;transparentBackground=1&amp;dynamicHeight=1"
+					src="https://tally.so/embed/NpBWAO?alignLeft=1&amp;hideTitle=1&amp;transparentBackground=1&amp;dynamicHeight=1"
 					title="UAV Manufacturing Intern Application Form"
 					loading="lazy">
 					Your browser can&rsquo;t display the embedded form.
-					<a href="https://forms.gle/Q54SXoUnS5csYc3M9" target="_blank" rel="noopener noreferrer">Open the application form directly.</a>
+					<a href="https://tally.so/r/NpBWAO" target="_blank" rel="noopener noreferrer">Open the application form directly.</a>
 				</iframe>
 			</section>
 		</main>
@@ -330,5 +331,7 @@
 			<span>&copy; Ascend Engineering</span>
 			<span>Chicago, IL</span>
 		</footer>
+
+		<script src="https://tally.so/widgets/embed.js" async></script>
 	</body>
 </html>
