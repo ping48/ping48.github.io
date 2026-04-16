@@ -50,7 +50,8 @@ Structure (top to bottom, centered, max-width similar to other content sections 
 
 1. **Title block**
    - `h1`: "UAV Manufacturing Intern"
-   - Subtitle line: "Ascend Engineering · Chicago, IL · Part-time / Full-time · $16.60–$25.00/hr · In person"
+   - Subtitle line: "Ascend Engineering · Chicago, IL · Part-time / Full-time · In person"
+   - Pay range from the Indeed posting is intentionally omitted from this page.
 2. **About the Role** — short paragraph.
 3. **Responsibilities** — bulleted list (6 items).
 4. **Qualifications** — bulleted list (4 items).
