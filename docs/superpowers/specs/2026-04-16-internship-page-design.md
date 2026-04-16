@@ -82,7 +82,14 @@ Copied verbatim from the Indeed posting for this role (Ascend Engineering is Ant
 
 ## Google Form Setup
 
-The form is created manually by Anthony in Google Forms (`forms.google.com`). The form is owned by Anthony's Google account. Configuration:
+The form has been created by Anthony in Google Forms and is owned by his Google account.
+
+**Form URLs:**
+- Short link: `https://forms.gle/Q54SXoUnS5csYc3M9`
+- Viewform: `https://docs.google.com/forms/d/e/1FAIpQLSeYUdAOl-9M8IAcel2Dkn8VThZN4SrqfMGdOI6v552-y_GteQ/viewform`
+- Embed src: `https://docs.google.com/forms/d/e/1FAIpQLSeYUdAOl-9M8IAcel2Dkn8VThZN4SrqfMGdOI6v552-y_GteQ/viewform?embedded=true`
+
+Configuration:
 
 **Form title:** "UAV Manufacturing Intern — Application"
 
@@ -129,10 +136,10 @@ ping48.github.io/
 ## Workflow
 
 ### One-time setup (Anthony)
-1. Create the Google Form with the fields above.
-2. Link responses to a Google Sheet.
-3. Copy the embed iframe snippet.
-4. Paste the snippet into `internship.html` where indicated.
+1. ~~Create the Google Form with the fields above.~~ Done — form lives at the URLs listed above.
+2. Verify responses are linked to a Google Sheet (Form → Responses → "Link to Sheets").
+3. Verify the fields match this spec (name, email with validation, resume file upload restricted to PDF).
+4. Confirm the confirmation-message copy on submit.
 
 ### Ongoing
 1. Share the URL `https://ping48.github.io/internship.html` with applicants directly.
