@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Forehead Frenzy</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Lilita+One&family=Nunito:wght@600;800&display=swap" rel="stylesheet">
+<style>
+  /* ---------- tokens ---------- */
+  :root {
+    --ink:      #14123B;   /* deep night indigo */
+    --ink-soft: #221E52;
+    --paper:    #FFF9F0;
+    --coral:    #FF6B6B;
+    --gold:     #FFC93C;
+    --mint:     #55E6A5;
+    --sky:      #4CC9F0;
+    --lilac:    #B983FF;
+    --correct:  #22C55E;
+    --pass:     #F59E0B;
+    --display:  'Lilita One', system-ui, sans-serif;
+    --body:     'Nunito', system-ui, sans-serif;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { height: 100%; overflow: hidden; }
+
+  body {
+    font-family: var(--body);
+    background: var(--ink);
+    color: var(--paper);
+    -webkit-user-select: none;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .screen {
+    position: absolute;
+    inset: 0;
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    text-align: center;
+  }
+  .screen.active { display: flex; }
+
+  /* ---------- home ---------- */
+  #home { justify-content: flex-start; padding-top: 8vh; overflow-y: auto; }
+
+  .logo {
+    font-family: var(--display);
+    font-size: clamp(2.6rem, 10vw, 4.5rem);
+    line-height: 0.95;
+    letter-spacing: 0.02em;
+    transform: rotate(-3deg);
+    text-shadow: 4px 4px 0 var(--coral);
+    margin-bottom: 6px;
+  }
+  .tagline { opacity: 0.75; font-weight: 600; margin-bottom: 28px; }
+
+  .deck-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(140px, 200px));
+    gap: 14px;
+    width: 100%;
+    max-width: 440px;
+    justify-content: center;
+  }
+
+  .deck-card {
+    font-family: var(--display);
+    font-size: 1.25rem;
+    color: var(--ink);
+    border: none;
+    border-radius: 18px;
+    padding: 22px 12px 18px;
+    cursor: pointer;
+    box-shadow: 0 5px 0 rgba(0,0,0,0.28);
+    transition: transform 0.08s ease;
+  }
+  .deck-card:active { transform: translateY(4px); box-shadow: 0 1px 0 rgba(0,0,0,0.28); }
+  .deck-card .emoji { display: block; font-size: 2rem; margin-bottom: 6px; }
+
+  .tilt-note { margin-top: 26px; font-size: 0.85rem; opacity: 0.6; max-width: 340px; }
+
+  button.pill {
+    font-family: var(--display);
+    font-size: 1.15rem;
+    color: var(--ink);
+    background: var(--paper);
+    border: none;
+    border-radius: 999px;
+    padding: 14px 34px;
+    cursor: pointer;
+    box-shadow: 0 5px 0 rgba(0,0,0,0.3);
+  }
+  button.pill:active { transform: translateY(4px); box-shadow: none; }
+  button.pill.ghost { background: transparent; color: var(--paper); box-shadow: inset 0 0 0 3px var(--paper); }
+
+  /* ---------- custom deck ---------- */
+  #custom textarea {
+    width: 100%;
+    max-width: 420px;
+    height: 40vh;
+    border-radius: 14px;
+    border: none;
+    padding: 14px;
+    font-family: var(--body);
+    font-weight: 600;
+    font-size: 1rem;
+    resize: none;
+    margin: 18px 0;
+  }
+  .btn-row { display: flex; gap: 14px; }
+
+  /* ---------- countdown & game ---------- */
+  #countdown .big-count {
+    font-family: var(--display);
+    font-size: 8rem;
+    animation: pop 1s infinite;
+  }
+  @keyframes pop { 0% { transform: scale(0.6); opacity: 0; } 40% { transform: scale(1); opacity: 1; } }
+
+  #game { padding: 0; }
+
+  #word {
+    font-family: var(--display);
+    font-size: clamp(2.8rem, 12vw, 7rem);
+    line-height: 1.05;
+    padding: 0 5vw;
+    word-break: break-word;
+  }
+
+  #timer {
+    position: absolute;
+    top: 14px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: var(--display);
+    font-size: 1.8rem;
+    opacity: 0.85;
+  }
+
+  .tap-hint {
+    position: absolute;
+    font-weight: 800;
+    font-size: 0.8rem;
+    letter-spacing: 0.12em;
+    opacity: 0.4;
+    text-transform: uppercase;
+  }
+  #hint-pass    { left: 16px;  top: 50%; transform: translateY(-50%) rotate(-90deg); }
+  #hint-correct { right: 16px; top: 50%; transform: translateY(-50%) rotate(90deg); }
+
+  /* full-screen verdict flash */
+  #flash {
+    position: absolute;
+    inset: 0;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--display);
+    font-size: clamp(3rem, 14vw, 8rem);
+    color: var(--paper);
+  }
+
+  /* ---------- results ---------- */
+  #results { overflow-y: auto; justify-content: flex-start; padding-top: 7vh; }
+  .score-line { font-family: var(--display); font-size: 3.2rem; color: var(--gold); margin: 8px 0 20px; }
+  .result-list { width: 100%; max-width: 420px; margin-bottom: 24px; }
+  .result-item {
+    display: flex;
+    justify-content: space-between;
+    background: var(--ink-soft);
+    border-radius: 10px;
+    padding: 10px 16px;
+    margin-bottom: 8px;
+    font-weight: 800;
+  }
+  .result-item .verdict.ok   { color: var(--mint); }
+  .result-item .verdict.skip { color: var(--pass); }
+
+  @media (prefers-reduced-motion: reduce) {
+    #countdown .big-count { animation: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ============ HOME ============ -->
+<section id="home" class="screen active">
+  <h1 class="logo">Forehead<br>Frenzy</h1>
+  <p class="tagline">Hold it to your head. Friends shout clues. Tilt to score.</p>
+  <div class="deck-grid" id="deckGrid"></div>
+  <p class="tilt-note" id="tiltNote">
+    Tilt <strong>down</strong> for correct, <strong>up</strong> to pass —
+    or tap the right / left side of the screen.
+  </p>
+</section>
+
+<!-- ============ CUSTOM DECK ============ -->
+<section id="custom" class="screen">
+  <h2 class="logo" style="font-size:2rem; text-shadow: 3px 3px 0 var(--lilac);">Your Deck</h2>
+  <textarea id="customWords" placeholder="One word or phrase per line…&#10;&#10;Aunt Carol&#10;The office microwave&#10;That one karaoke night"></textarea>
+  <div class="btn-row">
+    <button class="pill ghost" onclick="show('home')">Back</button>
+    <button class="pill" onclick="startCustom()">Play</button>
+  </div>
+</section>
+
+<!-- ============ COUNTDOWN ============ -->
+<section id="countdown" class="screen">
+  <p style="font-weight:800; letter-spacing:0.1em;">PHONE TO FOREHEAD!</p>
+  <div class="big-count" id="countNum">3</div>
+</section>
+
+<!-- ============ GAME ============ -->
+<section id="game" class="screen">
+  <div id="timer">60</div>
+  <div id="word">WORD</div>
+  <span class="tap-hint" id="hint-pass">tap · pass</span>
+  <span class="tap-hint" id="hint-correct">tap · correct</span>
+  <div id="flash"></div>
+</section>
+
+<!-- ============ RESULTS ============ -->
+<section id="results" class="screen">
+  <h2 class="logo" style="font-size:2.2rem;">Time's Up!</h2>
+  <div class="score-line" id="finalScore"></div>
+  <div class="result-list" id="resultList"></div>
+  <div class="btn-row">
+    <button class="pill ghost" onclick="show('home')">Decks</button>
+    <button class="pill" onclick="replay()">Play Again</button>
+  </div>
+</section>
+
+<script>
+"use strict";
+
+/* =====================================================
+   Decks
+   ===================================================== */
+const DECKS = {
+  animals: {
+    label: "Animals", emoji: "🦁", color: "var(--gold)",
+    words: ["Elephant","Penguin","Kangaroo","Octopus","Sloth","Flamingo","Hedgehog",
+      "T-Rex","Giraffe","Platypus","Hammerhead Shark","Chameleon","Peacock","Otter",
+      "Raccoon","Bald Eagle","Jellyfish","Armadillo","Komodo Dragon","Hummingbird",
+      "Wolverine","Narwhal","Tarantula","Meerkat","Axolotl","Orca","Pufferfish"]
+  },
+  food: {
+    label: "Food", emoji: "🌮", color: "var(--coral)",
+    words: ["Tacos","Sushi","Pancakes","Ramen","Guacamole","Croissant","Hot Dog",
+      "Mac & Cheese","Pad Thai","Cinnamon Roll","Nachos","Dumplings","Tiramisu",
+      "Buffalo Wings","Pho","Bagel","Churros","Poutine","Caesar Salad","Lasagna",
+      "Grilled Cheese","Bubble Tea","Fried Chicken","Ice Cream Sundae","Pretzel"]
+  },
+  actions: {
+    label: "Act It Out", emoji: "🎭", color: "var(--lilac)",
+    words: ["Brushing Teeth","Riding a Horse","Juggling","Milking a Cow","Shoveling Snow",
+      "Playing Air Guitar","Walking a Dog","Changing a Tire","Doing Yoga","Fishing",
+      "Making Pizza","Robot Dance","Rock Climbing","Karate Chop","Bowling",
+      "Blowing Out Candles","Taking a Selfie","Ironing a Shirt","Slam Dunk",
+      "Parallel Parking","Tightrope Walking","Snorkeling","Conducting an Orchestra"]
+  },
+  jobs: {
+    label: "Jobs", emoji: "👷", color: "var(--sky)",
+    words: ["Firefighter","Astronaut","Dentist","Barista","Lifeguard","Magician",
+      "Air Traffic Controller","Zookeeper","Sushi Chef","Stunt Double","Plumber",
+      "News Anchor","Beekeeper","Librarian","Tattoo Artist","Referee","Locksmith",
+      "Flight Attendant","Archaeologist","DJ","Court Judge","Mail Carrier","Surgeon"]
+  },
+  house: {
+    label: "Around the House", emoji: "🏠", color: "var(--mint)",
+    words: ["Vacuum Cleaner","Toaster","Remote Control","Laundry Basket","Doorbell",
+      "Coffee Maker","Shower Curtain","Junk Drawer","Ceiling Fan","Welcome Mat",
+      "Ironing Board","Blender","Alarm Clock","Garden Hose","Microwave","Recliner",
+      "Smoke Detector","Dish Rack","Extension Cord","Thermostat","Bunk Bed","Mop"]
+  },
+  custom: {
+    label: "Custom Deck", emoji: "✏️", color: "var(--paper)",
+    words: []
+  }
+};
+
+const ROUND_SECONDS = 60;
+
+/* =====================================================
+   State
+   ===================================================== */
+let deckKey = null;      // which deck is being played
+let queue = [];          // shuffled words remaining
+let history = [];        // { word, correct } for the results screen
+let score = 0;
+let timeLeft = 0;
+let timerId = null;
+let inputLocked = false; // debounce between verdicts
+
+/* =====================================================
+   Screens & home setup
+   ===================================================== */
+const $ = (id) => document.getElementById(id);
+
+function show(id) {
+  document.querySelectorAll(".screen").forEach(s => s.classList.remove("active"));
+  $(id).classList.add("active");
+}
+
+function buildHome() {
+  const grid = $("deckGrid");
+  for (const [key, deck] of Object.entries(DECKS)) {
+    const btn = document.createElement("button");
+    btn.className = "deck-card";
+    btn.style.background = deck.color;
+    btn.innerHTML = `<span class="emoji">${deck.emoji}</span>${deck.label}`;
+    btn.onclick = () => key === "custom" ? show("custom") : beginRound(key);
+    grid.appendChild(btn);
+  }
+}
+buildHome();
+
+function startCustom() {
+  const words = $("customWords").value
+    .split("\n")
+    .map(w => w.trim())
+    .filter(Boolean);
+  if (words.length < 3) { alert("Add at least 3 words!"); return; }
+  DECKS.custom.words = words;
+  beginRound("custom");
+}
+
+/* =====================================================
+   Round flow
+   ===================================================== */
+function shuffled(arr) {
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+async function beginRound(key) {
+  deckKey = key;
+  await enableTilt();          // no-op if unsupported / already granted
+  show("countdown");
+
+  let n = 3;
+  $("countNum").textContent = n;
+  const tick = setInterval(() => {
+    n--;
+    if (n > 0) {
+      $("countNum").textContent = n;
+    } else {
+      clearInterval(tick);
+      startGame();
+    }
+  }, 1000);
+}
+
+function startGame() {
+  queue = shuffled(DECKS[deckKey].words);
+  history = [];
+  score = 0;
+  timeLeft = ROUND_SECONDS;
+  inputLocked = false;
+
+  $("timer").textContent = timeLeft;
+  nextWord();
+  show("game");
+
+  timerId = setInterval(() => {
+    timeLeft--;
+    $("timer").textContent = timeLeft;
+    if (timeLeft <= 0) endRound();
+  }, 1000);
+}
+
+function nextWord() {
+  if (queue.length === 0) queue = shuffled(DECKS[deckKey].words); // loop the deck
+  $("word").textContent = queue.pop();
+}
+
+function verdict(correct) {
+  if (inputLocked || !$("game").classList.contains("active")) return;
+  inputLocked = true;
+
+  history.push({ word: $("word").textContent, correct });
+  if (correct) score++;
+
+  const flash = $("flash");
+  flash.textContent = correct ? "GOT IT!" : "PASS";
+  flash.style.background = correct ? "var(--correct)" : "var(--pass)";
+  flash.style.display = "flex";
+  if (navigator.vibrate) navigator.vibrate(correct ? 80 : 40);
+
+  setTimeout(() => {
+    flash.style.display = "none";
+    nextWord();
+    inputLocked = false;
+  }, 550);
+}
+
+function endRound() {
+  clearInterval(timerId);
+
+  $("finalScore").textContent = `${score} / ${history.length}`;
+  const list = $("resultList");
+  list.innerHTML = history.map(({ word, correct }) => `
+    <div class="result-item">
+      <span>${word}</span>
+      <span class="verdict ${correct ? "ok" : "skip"}">${correct ? "✓" : "pass"}</span>
+    </div>`).join("");
+
+  show("results");
+}
+
+function replay() { beginRound(deckKey); }
+
+/* =====================================================
+   Input: tap zones
+   ===================================================== */
+$("game").addEventListener("pointerdown", (e) => {
+  // Right half = correct, left half = pass (works in any orientation).
+  verdict(e.clientX > window.innerWidth / 2);
+});
+
+/* =====================================================
+   Input: tilt (device orientation)
+   -----------------------------------------------------
+   We track gravity along the screen's normal (z) axis:
+       z = cos(beta) * cos(gamma)
+   Held upright at the forehead  ->  z ~ 0
+   Tilted down (screen to floor) ->  z -> -1  => correct
+   Tilted up (screen to ceiling) ->  z -> +1  => pass
+   This works regardless of portrait/landscape.
+   ===================================================== */
+const TILT_TRIGGER = 0.55;  // how far to tilt before it counts
+const TILT_RESET   = 0.30;  // must return this close to upright first
+let tiltArmed = true;
+
+async function enableTilt() {
+  // iOS 13+ requires an explicit permission request from a user gesture.
+  if (typeof DeviceOrientationEvent !== "undefined" &&
+      typeof DeviceOrientationEvent.requestPermission === "function") {
+    try {
+      const state = await DeviceOrientationEvent.requestPermission();
+      if (state !== "granted") return;
+    } catch {
+      return; // user dismissed the prompt — tap zones still work
+    }
+  }
+  window.addEventListener("deviceorientation", onTilt);
+}
+
+function onTilt({ beta, gamma }) {
+  if (beta === null || gamma === null) return;
+
+  const rad = Math.PI / 180;
+  const z = Math.cos(beta * rad) * Math.cos(gamma * rad);
+
+  if (tiltArmed && Math.abs(z) > TILT_TRIGGER) {
+    tiltArmed = false;
+    verdict(z < 0);            // down = correct, up = pass
+  } else if (!tiltArmed && Math.abs(z) < TILT_RESET) {
+    tiltArmed = true;          // re-arm once back upright
+  }
+}
+</script>
+</body>
+</html>
