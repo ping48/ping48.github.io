@@ -545,9 +545,11 @@ $("game").addEventListener("pointerdown", (e) => {
    Tilted up (screen to ceiling) ->  z -> +1  => pass
    This works regardless of portrait/landscape.
    ===================================================== */
-const TILT_TRIGGER = 0.55;  // how far to tilt before it counts
-const TILT_RESET   = 0.30;  // must return this close to upright first
+const TILT_TRIGGER = 0.75;  // fire past ~49° of tilt from vertical
+const TILT_RESET   = 0.25;  // re-arm within ~15° of vertical
+const TILT_ALPHA   = 0.20;  // low-pass smoothing (~80 ms at 60 Hz)
 let tiltArmed = true;
+let zFiltered = 0;
 
 async function enableTilt() {
   // iOS 13+ requires an explicit permission request from a user gesture.
@@ -566,13 +568,16 @@ async function enableTilt() {
 function onTilt({ beta, gamma }) {
   if (beta === null || gamma === null) return;
 
+  // Gravity along the screen normal, low-pass filtered so a brief
+  // jerk can't spike past the threshold — only a held tilt fires.
   const rad = Math.PI / 180;
   const z = Math.cos(beta * rad) * Math.cos(gamma * rad);
+  zFiltered += TILT_ALPHA * (z - zFiltered);
 
-  if (tiltArmed && Math.abs(z) > TILT_TRIGGER) {
+  if (tiltArmed && Math.abs(zFiltered) > TILT_TRIGGER) {
     tiltArmed = false;
-    verdict(z < 0);            // down = correct, up = pass
-  } else if (!tiltArmed && Math.abs(z) < TILT_RESET) {
+    verdict(zFiltered < 0);    // down = correct, up = pass
+  } else if (!tiltArmed && Math.abs(zFiltered) < TILT_RESET) {
     tiltArmed = true;          // re-arm once back upright
   }
 }
