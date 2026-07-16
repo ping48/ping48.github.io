@@ -25,14 +25,14 @@
 						<li><a href="#one" class="active">About</a></li>
 						<li><a href="#two">Things I Can Do</a></li>
 						<li><a href="#three">Places I've Traveled!</a></li>
-						<li><a href="Resume_23-24.pdf">Resume</a></li>
+						<li><a href="resume.pdf">Resume</a></li>
 					</ul>
 				</nav>
 				<footer>
 					<ul class="icons">
 						<li><a href="https://www.linkedin.com/in/anthony-kang-21b51915b/" class="icon brands fa-linkedin"><span class="label">LinkedIn</span></a></li>
 						<li><a href="https://github.com/ping48" class="icon brands fa-github"><span class="label">Github</span></a></li>
-						<li><a href="mailto:akang@hmc.edu" class="icon solid fa-envelope"><span class="label">Email</span></a></li>
+						<li><a href="#" id="email-link" class="icon solid fa-envelope"><span class="label">Email</span></a></li>
 					</ul>
 				</footer>
 			</section>
@@ -53,8 +53,8 @@
 										<h2>About Me</h2>
 										<p>An aspiring engineer prepared to push outside my comfort zone</a>.</p>
 									</header>
-									<p> Hi there! I'm originally from suburbs of Chicago, and now I'm in Fargo, North Dakota, working as an embedded software engineer for Doosan Bobcat!
-										I recently graduated from Harvey Mudd College with a  
+									<p> Hi there! I'm originally from Glenview (Chicago suburb) , and now I'm in Chicago working as an embedded software engineer for a <a href="https://ascendengineer.com/">drone startup</a>!
+										I graduated from Harvey Mudd College with a  
 										<b><a href = "https://www.hmc.edu/engineering/curriculum/degree-requirements/">broad engineering degree</a></b> but my particular
 										strengths lie in <b> embedded systems and microcontrollers</b>. I'm excited to gain lots of experience and build cool things!
 									</p>
@@ -118,7 +118,7 @@
 							<section id="four">
 								<div class="container">
 									<h3>Resume</h3>
-									<p>Here's a link to <a href ="Resume_23-24.pdf">my resume.</a></p>
+									<p>Here's a link to <a href="resume.pdf">my resume.</a></p>
 								</div>
 							</section>
 
@@ -474,6 +474,11 @@ print 'It took ' + i + ' iterations to sort the deck.';</code></pre>
 			<script src="assets/js/breakpoints.min.js"></script>
 			<script src="assets/js/util.js"></script>
 			<script src="assets/js/main.js"></script>
+			<script>
+				// Email stored reversed so the address never appears whole in the source
+				document.getElementById('email-link').href =
+					'mailto:' + 'moc.liamg@gnakmynohtna'.split('').reverse().join('');
+			</script>
 
 	</body>
 </html>
