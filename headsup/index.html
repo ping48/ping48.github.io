@@ -439,6 +439,36 @@ function startCustom() {
 }
 
 /* =====================================================
+   Screen wake lock — keep the display on mid-round
+   -----------------------------------------------------
+   The lock is auto-released by the browser if the tab is
+   hidden, so we re-acquire on visibility change while a
+   round is in progress. Needs HTTPS; on browsers without
+   the API this quietly does nothing.
+   ===================================================== */
+let wakeLock = null;
+
+async function keepScreenOn() {
+  try {
+    wakeLock = await navigator.wakeLock?.request("screen");
+  } catch {
+    /* denied (e.g. low battery mode) — not worth interrupting the game */
+  }
+}
+
+function releaseScreen() {
+  wakeLock?.release();
+  wakeLock = null;
+}
+
+document.addEventListener("visibilitychange", () => {
+  if (document.visibilityState === "visible" &&
+      $("game").classList.contains("active")) {
+    keepScreenOn();
+  }
+});
+
+/* =====================================================
    Round flow
    ===================================================== */
 function shuffled(arr) {
@@ -475,6 +505,7 @@ function startGame() {
   timeLeft = ROUND_SECONDS;
   inputLocked = false;
 
+  keepScreenOn();
   $("timer").textContent = timeLeft;
   nextWord();
   show("game");
@@ -513,6 +544,7 @@ function verdict(correct) {
 
 function endRound() {
   clearInterval(timerId);
+  releaseScreen();
 
   $("finalScore").textContent = `${score} / ${history.length}`;
   const list = $("resultList");
