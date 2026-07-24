@@ -439,26 +439,39 @@ function startCustom() {
 }
 
 /* =====================================================
-   Screen wake lock — keep the display on mid-round
+   Keep the screen on mid-round
    -----------------------------------------------------
-   The lock is auto-released by the browser if the tab is
-   hidden, so we re-acquire on visibility change while a
-   round is in progress. Needs HTTPS; on browsers without
-   the API this quietly does nothing.
+   Primary: Screen Wake Lock API (needs HTTPS).
+   Fallback: an invisible looping 2x2 video — playing media
+   is what stops iOS < 16.4 and some Android browsers from
+   sleeping. Both are started from the user's tap, since
+   media playback must begin inside a gesture.
    ===================================================== */
 let wakeLock = null;
 
+const noSleepVideo = Object.assign(document.createElement("video"), {
+  src: "data:video/mp4;base64,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",
+  loop: true,
+  muted: true,
+  playsInline: true,
+});
+noSleepVideo.setAttribute("playsinline", "");   // iOS needs the attribute form
+noSleepVideo.style.cssText = "position:absolute;width:1px;height:1px;opacity:0;pointer-events:none";
+document.body.appendChild(noSleepVideo);
+
 async function keepScreenOn() {
   try {
-    wakeLock = await navigator.wakeLock?.request("screen");
+    wakeLock = await navigator.wakeLock.request("screen");
+    wakeLock.addEventListener("release", () => { wakeLock = null; });
   } catch {
-    /* denied (e.g. low battery mode) — not worth interrupting the game */
+    noSleepVideo.play().catch(() => {});      // fall back to the video trick
   }
 }
 
 function releaseScreen() {
   wakeLock?.release();
   wakeLock = null;
+  noSleepVideo.pause();
 }
 
 document.addEventListener("visibilitychange", () => {
@@ -482,6 +495,7 @@ function shuffled(arr) {
 
 async function beginRound(key) {
   deckKey = key;
+  keepScreenOn();   // inside the tap gesture — required for the video fallback
   await enableTilt();          // no-op if unsupported / already granted
   show("countdown");
 
@@ -505,7 +519,6 @@ function startGame() {
   timeLeft = ROUND_SECONDS;
   inputLocked = false;
 
-  keepScreenOn();
   $("timer").textContent = timeLeft;
   nextWord();
   show("game");
