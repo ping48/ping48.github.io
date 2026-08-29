@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Brooklyn Eats — Map</title>
+  <link rel="stylesheet"
+        href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+        integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+        crossorigin=""/>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      font-family: 'Helvetica Neue', Arial, sans-serif;
+    }
+    #map {
+      height: 100vh;
+      width: 100%;
+    }
+    #title-overlay {
+      position: absolute;
+      top: 15px;
+      left: 15px;
+      z-index: 1000;
+      background: rgba(255,255,255,0.93);
+      padding: 12px 16px;
+      border-radius: 6px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+      max-width: 260px;
+    }
+    #title-overlay h1 {
+      font-size: 1rem;
+      font-weight: 600;
+      margin: 0 0 3px 0;
+      color: #1a1a1a;
+    }
+    #title-overlay p {
+      font-size: 0.75rem;
+      color: #555;
+      margin: 0;
+    }
+    #loading-status {
+      font-size: 0.72rem;
+      color: #888;
+      margin-top: 6px;
+    }
+    .legend-row {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.72rem;
+      color: #555;
+      margin-top: 6px;
+      cursor: pointer;
+      user-select: none;
+    }
+    .legend-row input {
+      margin: 0;
+    }
+    .swatch {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      display: inline-block;
+      border: 1px solid rgba(0,0,0,0.25);
+    }
+    #list-panel {
+      position: absolute;
+      bottom: 30px;
+      right: 15px;
+      z-index: 1000;
+      background: rgba(255,255,255,0.93);
+      border-radius: 6px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+      width: 250px;
+      font-size: 0.8rem;
+      max-height: calc(100vh - 60px);
+      display: flex;
+      flex-direction: column;
+    }
+    .panel-toggle {
+      padding: 10px 14px;
+      cursor: pointer;
+      font-weight: 600;
+      color: #1a1a1a;
+      user-select: none;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .panel-list {
+      padding: 0 14px 10px;
+      overflow-y: auto;
+      display: none;
+    }
+    .panel-list.open {
+      display: block;
+    }
+    .place-item {
+      padding: 6px 0;
+      color: #333;
+      border-bottom: 1px solid #eee;
+      font-size: 0.78rem;
+      cursor: pointer;
+    }
+    .place-item:last-child {
+      border-bottom: none;
+    }
+    .place-item:hover {
+      color: #b8442c;
+    }
+    .place-item .addr {
+      display: block;
+      color: #888;
+      font-size: 0.72rem;
+      margin-top: 1px;
+    }
+    .popup-inner h3 {
+      margin: 0 0 4px;
+      font-size: 0.95rem;
+      color: #1a1a1a;
+    }
+    .popup-addr {
+      font-size: 0.75rem;
+      color: #777;
+      margin: 0 0 5px;
+    }
+    .popup-desc {
+      font-size: 0.82rem;
+      color: #333;
+      margin: 0 0 6px;
+    }
+    .popup-note {
+      font-size: 0.76rem;
+      color: #b8442c;
+      margin: 0 0 8px;
+    }
+    .popup-btn {
+      display: inline-block;
+      margin-right: 6px;
+      margin-top: 2px;
+      padding: 4px 10px;
+      font-size: 0.75rem;
+      border: none;
+      border-radius: 4px;
+      background: #b8442c;
+      color: #fff;
+      cursor: pointer;
+      text-decoration: none;
+    }
+    .popup-btn:hover {
+      opacity: 0.85;
+    }
+    @media (max-width: 600px) {
+      #list-panel { width: 190px; bottom: 15px; }
+      #title-overlay { max-width: 190px; }
+    }
+  </style>
+</head>
+<body>
+  <div id="map"></div>
+
+  <div id="title-overlay">
+    <h1>Brooklyn Eats</h1>
+    <p>Running list of places to try</p>
+    <label class="legend-row">
+      <input type="checkbox" id="toggle-bk" checked>
+      <span class="swatch" style="background:#b8442c"></span> Brooklyn
+    </label>
+    <label class="legend-row">
+      <input type="checkbox" id="toggle-ct" checked>
+      <span class="swatch" style="background:#2c6fb8"></span> Chinatown eats (Flushing)
+    </label>
+    <div class="legend-row" style="cursor:default">
+      <span class="swatch" style="background:#fff;border:2px dotted #b8442c"></span> Approximate location
+    </div>
+    <p id="loading-status">Loading markers...</p>
+  </div>
+
+  <div id="list-panel">
+    <div class="panel-toggle" onclick="togglePanel('bk')">
+      <span id="bk-label">The list</span>
+      <span id="bk-arrow">&#9660;</span>
+    </div>
+    <div id="bk-list" class="panel-list open"></div>
+    <div class="panel-toggle" onclick="togglePanel('ct')" style="border-top:1px solid #eee">
+      <span id="ct-label">Chinatown eats</span>
+      <span id="ct-arrow">&#9654;</span>
+    </div>
+    <div id="ct-list" class="panel-list"></div>
+  </div>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+          integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+          crossorigin=""></script>
+  <script type="text/javascript">
+    const brooklyn = [
+      { name: "Black Nile &mdash; food truck",
+        address: "~1001 Rutland Rd, Brooklyn, NY 11212",
+        hood: "Remsen Village",
+        desc: "Halal seafood, soul food and sliders out of the truck. The preferable one.",
+        note: "Approximate pin — location guessed from Instagram. Delivery apps also list 1001 Rutland Rd.",
+        approx: true,
+        lat: 40.6627599, lng: -73.9265007 },
+      { name: "Black Nile &mdash; restaurant",
+        address: "1140 Utica Ave, Brooklyn, NY 11203",
+        hood: "East Flatbush",
+        desc: "The eat-in location. Husband-and-wife owned; halal soul food and Cajun seafood.",
+        note: "Tue–Thu &amp; Sun 4–10pm, Fri–Sat 4–11pm. Takes reservations.",
+        lat: 40.6449709, lng: -73.9297666 },
+      { name: "Bark Barbecue",
+        address: "25 Thames St, Brooklyn, NY 11237",
+        hood: "Bushwick",
+        desc: "Dominican-Texas barbecue — brisket, smoked carnitas, chicharrón tacos. Big standalone space with a bar and outdoor seating.",
+        lat: 40.7050596, lng: -73.9319807 },
+      { name: "Chinantla",
+        address: "657 Myrtle Ave, Brooklyn, NY 11205",
+        hood: "Bed-Stuy / Clinton Hill",
+        desc: "Poblano Mexican — cemitas, tacos, tortas.",
+        lat: 40.6946030, lng: -73.9574611 },
+      { name: "Irie Jerk Chicken",
+        address: "1142 Nostrand Ave, Brooklyn, NY 11225",
+        hood: "Prospect-Lefferts Gardens",
+        desc: "Jamaican jerk chicken counter.",
+        lat: 40.6597146, lng: -73.9507932 },
+      { name: "Pecking House",
+        address: "244 Flatbush Ave, Brooklyn, NY 11217",
+        hood: "Prospect Heights",
+        desc: "Chef Eric Huang&rsquo;s Chinese-Southern chili fried chicken.",
+        note: "Some listings show this address as closed — call ahead.",
+        lat: 40.6796635, lng: -73.9745065 },
+      { name: "Freetown Kitchen",
+        address: "1172 Park Pl, Brooklyn, NY 11213",
+        hood: "Crown Heights",
+        desc: "African-Asian mashup — jerk chicken, jollof rice, suya lamb.",
+        note: "Via @mubereats — one of his favorite places of the year.",
+        lat: 40.6726790, lng: -73.9387296 },
+      { name: "Sunset Park Plaza",
+        address: "4223 2nd Ave, Brooklyn, NY 11232",
+        hood: "Sunset Park",
+        desc: "Outdoor Mexican food market. Vendors include Las Comadres, Tacos Placeros Obregon, Tacos Lakuani, and Aguas Frescas.",
+        note: "Saturday &amp; Sunday, 11am–8pm only.",
+        lat: 40.6529716, lng: -74.0125299 },
+      { name: "Tony&rsquo;s Pizza",
+        address: "312 Utica Ave, Brooklyn, NY 11213",
+        hood: "Crown Heights",
+        desc: "Caribbean-American pizza shop.",
+        note: "Get the jerk chicken — $5.50.",
+        lat: 40.6673914, lng: -73.9314015 }
+    ];
+
+    const chinatown = [
+      { name: "Zhu Ji Dumpling Stall",
+        address: "40-52 Main St, Flushing, NY 11354",
+        hood: "Flushing, Queens",
+        desc: "1 for $2, 2 for $3 shengjianbao (pan-fried pork bao).",
+        lat: 40.7581016, lng: -73.8299419 },
+      { name: "Peking Duck Sandwich Stall",
+        address: "137-28 40th St, Flushing, NY",
+        hood: "Flushing, Queens",
+        desc: "$2.50 Peking duck buns. Max 1 per person, cash only.",
+        lat: 40.7586725, lng: -73.8306910 },
+      { name: "Corner 28",
+        address: "135-24 40th Rd, Flushing, NY 11354",
+        hood: "Flushing, Queens",
+        desc: "$9 roast pork over rice — $8 because I spoke Mandarin.",
+        lat: 40.7585823, lng: -73.8306664 }
+    ];
+
+    function dot(color, approx) {
+      const inner = approx
+        ? '<div style="width:14px;height:14px;border-radius:50%;background:#fff;border:3px dotted ' +
+          color + ';box-sizing:border-box;box-shadow:0 1px 4px rgba(0,0,0,0.4)"></div>'
+        : '<div style="width:14px;height:14px;border-radius:50%;background:' + color +
+          ';border:2px solid #fff;box-shadow:0 1px 4px rgba(0,0,0,0.4)"></div>';
+      return L.divIcon({
+        className: '',
+        html: inner,
+        iconSize: [14, 14],
+        iconAnchor: [7, 7],
+        popupAnchor: [0, -8]
+      });
+    }
+
+    function buildPopup(p) {
+      const plain = p.name.replace(/&rsquo;/g, "'").replace(/&mdash;/g, '-');
+      const q = encodeURIComponent(plain + ' ' + p.address.replace(/^~/, ''));
+      let html = '<div class="popup-inner">' +
+        '<h3>' + p.name + '</h3>' +
+        '<p class="popup-addr">' + p.address + (p.hood ? ' · ' + p.hood : '') + '</p>' +
+        '<p class="popup-desc">' + p.desc + '</p>';
+      if (p.note) {
+        html += '<p class="popup-note">' + p.note + '</p>';
+      }
+      html += '<a class="popup-btn" href="https://www.google.com/maps/search/?api=1&query=' + q +
+              '" target="_blank" rel="noopener noreferrer">Directions</a></div>';
+      return html;
+    }
+
+    function togglePanel(key) {
+      const list = document.getElementById(key + '-list');
+      const arrow = document.getElementById(key + '-arrow');
+      list.classList.toggle('open');
+      arrow.innerHTML = list.classList.contains('open') ? '&#9660;' : '&#9654;';
+    }
+
+    const map = L.map('map').setView([40.68, -73.95], 12);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      maxZoom: 19,
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    }).addTo(map);
+
+    const bkLayer = L.layerGroup().addTo(map);
+    const ctLayer = L.layerGroup().addTo(map);
+
+    function render(places, layer, color, listId) {
+      const listEl = document.getElementById(listId);
+      places.forEach(function (p) {
+        const marker = L.marker([p.lat, p.lng], { icon: dot(color, p.approx) })
+          .addTo(layer)
+          .bindPopup(buildPopup(p), { maxWidth: 280 });
+        p._marker = marker;
+
+        const item = document.createElement('div');
+        item.className = 'place-item';
+        item.innerHTML = p.name + '<span class="addr">' + p.address + '</span>';
+        item.onclick = function () {
+          if (!map.hasLayer(layer)) return;
+          map.setView([p.lat, p.lng], 16);
+          marker.openPopup();
+        };
+        listEl.appendChild(item);
+      });
+    }
+
+    render(brooklyn, bkLayer, '#b8442c', 'bk-list');
+    render(chinatown, ctLayer, '#2c6fb8', 'ct-list');
+
+    document.getElementById('bk-label').textContent = 'The list (' + brooklyn.length + ')';
+    document.getElementById('ct-label').textContent = 'Chinatown eats (' + chinatown.length + ')';
+    document.getElementById('loading-status').textContent =
+      brooklyn.length + ' Brooklyn · ' + chinatown.length + ' Chinatown';
+
+    function bindToggle(id, layer) {
+      document.getElementById(id).addEventListener('change', function (e) {
+        if (e.target.checked) map.addLayer(layer);
+        else map.removeLayer(layer);
+      });
+    }
+    bindToggle('toggle-bk', bkLayer);
+    bindToggle('toggle-ct', ctLayer);
+
+    map.fitBounds(
+      L.featureGroup(brooklyn.map(function (p) { return p._marker; })).getBounds(),
+      { padding: [70, 70] }
+    );
+  </script>
+</body>
+</html>
