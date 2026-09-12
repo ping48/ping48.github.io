@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<title>Hong Kong Sunday Plan</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap">
+<style>
+:root{
+  --bg:#F5F7F4; --surface:#FFFFFF; --ink:#1B2430; --muted:#5F6B76; --line:#D6DCD8;
+  --accent:#1F6F5B; --accent-ink:#FFFFFF; --accent-soft:#E3F0EA;
+  --warn:#8A5A12; --warn-soft:#FBF0DC; --warn-line:#E4C892;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#131A20; --surface:#1B242C; --ink:#E9EDF0; --muted:#9AA6B1; --line:#2E3942;
+    --accent:#52B892; --accent-ink:#0F1A16; --accent-soft:#1C3A31;
+    --warn:#E9B45C; --warn-soft:#2E2617; --warn-line:#5A4620;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#131A20; --surface:#1B242C; --ink:#E9EDF0; --muted:#9AA6B1; --line:#2E3942;
+  --accent:#52B892; --accent-ink:#0F1A16; --accent-soft:#1C3A31;
+  --warn:#E9B45C; --warn-soft:#2E2617; --warn-line:#5A4620;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;font-size:16px;line-height:1.55;padding-block:32px 64px;padding-inline:20px}
+.wrap{max-width:720px;margin:0 auto}
+h1,h2,h3{font-family:"Barlow Condensed","Arial Narrow",sans-serif;text-wrap:balance;margin:0;line-height:1.05}
+h1{font-size:clamp(40px,9vw,60px);font-weight:700;letter-spacing:-.01em}
+h2{font-size:26px;font-weight:600;margin-top:44px;margin-bottom:14px;padding-bottom:6px;border-bottom:2px solid var(--ink)}
+h3{font-size:20px;font-weight:600}
+p{margin:0}
+.eyebrow{font-family:"Barlow Condensed",sans-serif;font-size:14px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--accent)}
+.lede{color:var(--muted);margin-top:10px;max-width:60ch}
+.meta{display:flex;flex-wrap:wrap;gap:8px 20px;margin-top:18px;font-size:14px;color:var(--muted);font-variant-numeric:tabular-nums}
+.meta b{color:var(--ink);font-weight:600}
+.notice{margin-top:24px;background:var(--warn-soft);border:1px solid var(--warn-line);border-left:5px solid var(--warn);padding:14px 16px;border-radius:4px}
+.notice .eyebrow{color:var(--warn)}
+.notice p{margin-top:6px}
+.wx{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px}
+.wx div{background:var(--surface);border:1px solid var(--line);padding:10px 12px;border-radius:4px;font-size:14px}
+.wx strong{font-family:"Barlow Condensed",sans-serif;font-size:18px;display:block;font-weight:600}
+.wx span{color:var(--muted)}
+ul{margin:0;padding-left:20px}
+li{margin-top:6px}
+li::marker{color:var(--accent)}
+.timeline{list-style:none;padding:0;margin:0;position:relative}
+.timeline::before{content:"";position:absolute;left:62px;top:8px;bottom:8px;width:3px;background:var(--accent);opacity:.35;border-radius:2px}
+.stop{display:grid;grid-template-columns:52px 1fr;gap:0 24px;padding:14px 0;margin:0;position:relative}
+.stop+.stop{border-top:1px solid var(--line)}
+.stop::before{content:"";position:absolute;left:56px;top:22px;width:15px;height:15px;border-radius:50%;background:var(--surface);border:3px solid var(--accent)}
+.stop.opt::before{border-style:dashed}
+.time{font-family:"Barlow Condensed",sans-serif;font-size:22px;font-weight:700;font-variant-numeric:tabular-nums;color:var(--ink);line-height:1.2;padding-top:2px}
+.stop h3 a{color:inherit;text-decoration:none;border-bottom:1.5px solid var(--accent)}
+.stop h3 a:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.where{font-size:14px;color:var(--muted);margin-top:2px}
+.stop p{margin-top:6px}
+.tag{display:inline-block;font-family:"Barlow Condensed",sans-serif;font-size:13px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;background:var(--accent-soft);color:var(--accent);padding:2px 8px;border-radius:3px;margin-top:8px;margin-right:6px}
+.tag.warn{background:var(--warn-soft);color:var(--warn)}
+.cards{display:grid;grid-template-columns:1fr;gap:10px}
+.card{background:var(--surface);border:1px solid var(--line);padding:12px 14px;border-radius:4px}
+.card h3{margin-bottom:4px}
+.card p{color:var(--muted);font-size:15px}
+.todo li{list-style:none;position:relative;padding-left:28px;margin-top:10px}
+.todo li::before{content:"";position:absolute;left:0;top:4px;width:16px;height:16px;border:2px solid var(--accent);border-radius:3px}
+.todo{padding-left:0}
+.foot{margin-top:40px;font-size:13px;color:var(--muted)}
+.foot a{color:var(--accent)}
+@media (max-width:480px){
+  .stop{grid-template-columns:44px 1fr;gap:0 18px}
+  .timeline::before{left:52px}
+  .stop::before{left:46px}
+  .time{font-size:19px}
+  .wx{grid-template-columns:1fr}
+}
+@media (prefers-reduced-motion:no-preference){ a{transition:color .15s} }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <p class="eyebrow">Sunday 13 September 2026</p>
+  <h1>Hong Kong, day one</h1>
+  <p class="lede">Land at 05:00, sleep in Sai Ying Pun. Alex's spots, the only-on-Sunday stuff, and the cheap Michelin food, in an order that works with the weather and the jet lag.</p>
+  <div class="meta">
+    <span>Hotel <b>Best Western Plus, 308 Des Voeux Rd W</b></span>
+    <span>Check-in <b>14:00</b></span>
+    <span>Sunrise <b>06:09</b></span>
+    <span>Sunset <b>18:29</b></span>
+  </div>
+
+  <div class="notice">
+    <p class="eyebrow">Weather, checked 12 Sep on the Observatory 9-day forecast</p>
+    <p>A tropical cyclone is crossing the South China Sea toward Vietnam. Sunday is the covered, city-and-food day. The Peak, Stanley, and any hike move to Monday, which is sunny. No warnings in force as of Saturday; check the MyObservatory app when you land.</p>
+    <div class="wx">
+      <div><strong>Sun 13 · 25–29 °C · rain: high</strong><span>Mainly cloudy, showers heavy at first with squally thunderstorms, swells, east wind force 4–5.</span></div>
+      <div><strong>Mon 14 · 26–31 °C · rain: medium-low</strong><span>Sunny intervals. A few morning and night showers.</span></div>
+    </div>
+  </div>
+
+  <h2>Getting in from the airport</h2>
+  <ul>
+    <li><b>Octopus first.</b> iPhone: Wallet, plus, Transit Card, Hong Kong, "Octopus for Tourists". A US card works there. HK$50 deposit, HK$100 minimum load. Or buy a physical card at the MTR counter in arrivals.</li>
+    <li><b>Airport Express</b> runs from 05:54, about every 10 minutes, 24 minutes to Hong Kong Station. The free hotel shuttle bus is gone since 2020. From Hong Kong Station take a taxi (10 minutes) or walk to Sheung Wan MTR and ride two stops to Sai Ying Pun, exit B3.</li>
+    <li><b>Cheaper if you clear customs after 06:50:</b> Citybus A10 stops on Des Voeux Road West, essentially at the hotel door, about 70 minutes. Before 06:50 the N11 night bus goes to Central.</li>
+    <li>Drop bags at the hotel. Storage is free and now in the carpark. Ask about early check-in; reviews mention rooms ready around noon.</li>
+  </ul>
+
+  <h2>The day</h2>
+  <ol class="timeline">
+    <li class="stop"><span class="time">07:15</span><div>
+      <h3>Sun Hing dim sum</h3>
+      <p class="where">8 Smithfield Rd, Kennedy Town. 15-minute walk west of the hotel, or one tram stop.</p>
+      <p>Open since 03:00 every day (03:00–16:00). Grab trays straight off the steamer carts, share a table with old-timers and students, pay cash. Salted-egg lava buns, quail-egg siu mai, fried milk.</p>
+    </div></li>
+    <li class="stop"><span class="time">08:15</span><div>
+      <h3>Kennedy Town waterfront</h3>
+      <p class="where">Belcher Bay Promenade, then Alex's court at the end of Sai Ning St, then Instagram Pier.</p>
+      <p>Alex's basketball court is the Kennedy Town Temporary Recreation Ground, right on the water. Instagram Pier is the old cargo working area next door. Expect swells and locals doing tai chi. Duck into a café if a shower rolls through.</p>
+    </div></li>
+    <li class="stop"><span class="time">09:15</span><div>
+      <h3>Ding-ding tram east to Central</h3>
+      <p class="where">Kennedy Town terminus. About 35 minutes. HK$3 flat, tap Octopus on exit.</p>
+      <p>Upper deck, front seats. The 1904 double-decker tram is the most Hong Kong way to cross the island.</p>
+    </div></li>
+    <li class="stop"><span class="time">10:00</span><div>
+      <h3>Sunday in Central</h3>
+      <p class="where">Chater Road, Statue Square, under the HSBC building.</p>
+      <p>Chater Road closes to cars on Sundays and thousands of Filipina domestic helpers turn the financial district into a picnic. Only happens on Sunday. Part of the Statue Square garden is fenced for underpass works this year.</p>
+      <span class="tag">Sunday only</span>
+    </div></li>
+    <li class="stop"><span class="time">10:20</span><div>
+      <h3>Mid-Levels Escalator, uphill</h3>
+      <p class="where">Starts at Cochrane St by Central Market. Runs downhill 06:00–10:00, then switches to uphill at 10:20.</p>
+      <p>Alex's tip: hop off wherever looks good, eat, hop back on. Stops worth the detour: Cheung Hing Kee pan-fried buns at 48 Lyndhurst Terrace right beside the escalator, Man Mo Temple on Hollywood Road (08:00–18:00), Tai Kwun, the former police station and prison turned arts complex (10:00–23:00, free), and PMQ.</p>
+    </div></li>
+    <li class="stop"><span class="time">12:30</span><div>
+      <h3>Lunch at Yat Lok</h3>
+      <p class="where">34–38 Stanley St, Central. Sunday 10:00–17:30.</p>
+      <p>One Michelin star, roast goose leg on rice for about HK$100 at a formica table. This is exactly Alex's point about Hong Kong Michelin. The queue moves fast.</p>
+      <span class="tag">Michelin, cheap</span>
+    </div></li>
+    <li class="stop"><span class="time">13:45</span><div>
+      <h3>Star Ferry to Tsim Sha Tsui</h3>
+      <p class="where">Central Pier 7. Nine minutes, about HK$5–6.5 on Octopus.</p>
+      <p>The skyline from the water. Upper deck for the view, lower deck for the engine smell and the 1950s vibe.</p>
+    </div></li>
+    <li class="stop"><span class="time">14:15</span><div>
+      <h3>Alex's dumplings, then MTR to Prince Edward</h3>
+      <p class="where">Cheung Hing Kee, Shop 6A, 48 Lock Rd, TST. 09:00–21:00 daily.</p>
+      <p>Skip this if you already ate at the Lyndhurst Terrace branch. Then Tsuen Wan line from TST to Prince Edward, about 10 minutes.</p>
+    </div></li>
+    <li class="stop"><span class="time">15:00</span><div>
+      <h3>Prince Edward with Danny</h3>
+      <p class="where">Flower Market Rd, Yuen Po St Bird Garden (to 20:00), Goldfish Market on Tung Choi St (10:00–20:00).</p>
+      <p>Eat at Kam Wah Café, 47 Bute St, for the ice-fire pineapple bun and a silk-stocking milk tea, open 06:30 to late. For a proper sit-down, One Dim Sum at 209A Tung Choi St, Sunday 08:30–23:00. If Danny would rather do dinner, run this block at 18:30 and move the Monster Building up to 15:00.</p>
+    </div></li>
+    <li class="stop opt"><span class="time">16:45</span><div>
+      <h3>Monster Building, if you still have legs</h3>
+      <p class="where">Yick Cheong Building, Quarry Bay MTR exit A. About 30 minutes from Prince Edward via Admiralty.</p>
+      <p>Alex's Transformers building. Photography inside the courtyard is officially banned now, so look from the street and keep it quiet, it is people's homes. Otherwise it goes on Monday.</p>
+      <span class="tag warn">Optional</span>
+    </div></li>
+    <li class="stop"><span class="time">18:00</span><div>
+      <h3>Hotel, shower, one-hour nap</h3>
+      <p class="where">Island line to Sai Ying Pun.</p>
+      <p>One hour maximum. Stay up until about 22:30 and the jet lag is mostly done by Monday.</p>
+    </div></li>
+    <li class="stop"><span class="time">19:30</span><div>
+      <h3>Dinner in the neighbourhood</h3>
+      <p class="where">Third Street and High Street, five minutes from the hotel.</p>
+      <p>Sai Ying Pun's restaurant strip. Wander and pick what looks good.</p>
+    </div></li>
+    <li class="stop"><span class="time">21:00</span><div>
+      <h3>Ping Pong 129</h3>
+      <p class="where">129 Second St, lower ground of Nam Cheong House. Five-minute walk from the hotel. Sunday 17:00–24:00.</p>
+      <p>Alex's ex-ping-pong-hall gin bar. No minimum spend on Sundays. It is closed on Mondays, so it has to be tonight.</p>
+      <span class="tag">Tonight or never</span>
+    </div></li>
+  </ol>
+
+  <h2>Monday, the sunny day</h2>
+  <div class="cards">
+    <div class="card"><h3>Peak Tram early</h3><p>Ride 07:30–09:00 to skip the 20–60 minute queues. Runs 07:00–22:00, HK$88 return. Walk the Lugard Road loop at the top.</p></div>
+    <div class="card"><h3>Stanley, Alex's chill south side</h3><p>Citybus 6X or 260 from Exchange Square, about 45 minutes. Market, waterfront, beach. Alternative: Dragon's Back hike (bus 9 from Shau Kei Wan) then Shek O beach.</p></div>
+    <div class="card"><h3>Evening</h3><p>Symphony of Lights at 20:00 from the TST promenade (ten minutes, free, mildly underwhelming), Temple Street night market after, then Lan Kwai Fong, Alex's bar strip. A cab back to Sai Ying Pun is 15 minutes.</p></div>
+  </div>
+
+  <h2>Do today, before you fly</h2>
+  <ul class="todo">
+    <li><b>Book Tuesday's train to Shenzhen now.</b> West Kowloon to Futian takes 14 minutes. Sales open 15 days out so 15 September is already on sale. Use the MTR High Speed Rail site, the 12306 app, or Trip.com; US Visa and Mastercard work. E-ticket, scan your passport at the gate. Shane got stranded buying last minute. Arrive an hour early.</li>
+    <li><b>Test WeChat Pay in Hong Kong</b> on Sunday so the Shenzhen drone order works.</li>
+    <li><b>Skip Keeta drones in Hong Kong.</b> The only public route is Science Park to Ma On Shan promenade, an hour away in the New Territories. Save it for Shenzhen.</li>
+    <li>Install the Michelin Guide app (Alex's tip), MyObservatory, and an eSIM.</li>
+  </ul>
+
+  <p class="foot">Hours and transport checked 12 Sep 2026 against the Observatory forecast, MTR, Citybus, the venues' own pages and recent reviews.</p>
+</div>
+</body>
+</html>
